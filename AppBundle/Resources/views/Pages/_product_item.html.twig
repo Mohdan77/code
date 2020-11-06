@@ -1,0 +1,192 @@
+<div class="col_12"
+     data-parameters="{% for property in properties[product.id]|default %}f{{ property.property.id }}_v{% for key, value in property.property.valuesChoice %}{% if value == property.value %}{{ key }}{% endif %}{% endfor %} {% endfor %}">
+
+    <form action="{{ path('js_api', {'action': 'cart-add', 'id': product.id}) }}" method="post"
+          data-id="{{ product.id }}">
+
+        <div class="default_product" {% if product.value('stock') %}data-st-type="stock"{% endif %}>
+            {% if product.value('stock') %}
+                <div class="product_label" data-type="stock">Акция</div>
+            {% elseif product.value('novelty') %}
+                <div class="product_label" data-type="novelty">Новинка</div>
+            {% elseif product.value('markdown') %}
+                <div class="product_label" data-type="markdown">Уценка</div>
+            {% elseif product.value('supershare') %}
+                <div class="product_label supershare" data-type="supershare">Суперакция</div>
+            {% elseif product.value('sales_leader') %}
+                <div class="product_label sales_leader" data-type="sales_leader">Лидер продаж</div>
+
+            {% endif %}
+
+            <div class="small_row">
+                <div class="col_image">
+                    <div class="image">
+                        <a href="{{ link(product.url) }}"
+                           title="{{ product.title }} От 1-ого поставщика."
+                           onclick="GTM_productClick({
+                                   'name': '{{ product.title }}',
+                                   'id': '{{ product.id }}',
+                                   'price': '{{ product.price }}',
+                                   'category': '{{ product.parentPages|first.title }}',
+                                   'list': '{{ list|default }}',
+                                   'position': {{ position|default }},
+                                   })">
+                            {% if product.value('alt_list_image')|default %}
+                                <img src="{{ asset(product.value('alt_list_image')) }}"
+                                     title="{{ product.title }} От 1-ого поставщика."
+                                     alt="{{ product.title }}">
+                            {% elseif product.image %}
+                                <img src="{{ asset(product.image)|imagine_filter('product_item') }}"
+                                     title="{{ product.title }} От 1-ого поставщика."
+                                     alt="{{ product.title }}">
+                            {% endif %}
+
+                            {% if product.value('color_code') %}
+                                <div class="color" style="background-color: {{ product.value('color_code') }}"></div>
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="col_summary">
+                    <div class="item">
+                        <a href="{{ link(product.url) }}" class="headline" onclick="GTM_productClick({
+                                'name': '{{ product.title }}',
+                                'id': '{{ product.id }}',
+                                'price': '{{ product.price }}',
+                                'category': '{{ product.parentPages|first.title }}',
+                                'list': '{{ list|default }}',
+                                'position': {{ position|default }},
+                                })">
+                            {{ product.title }}</a>
+                    </div>
+
+                    <div class="item default">
+                        <div class="_features">
+                            {% for property in properties[product.id]|default %}
+                                {% if loop.index < 5 %}
+                                    <div class="_row">
+                                        <div class="col_">
+                                            <div class="title">{{ property.property.title }}:</div>
+                                        </div>
+
+                                        <div class="col_full">
+                                            <div class="content">{{ property.value }} {{ property.property.valuePostfix }}</div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    {% if product.value('rating') > 0 %}
+                        <div class="item mini">
+                            <a href="{{ link(product.url) }}#jsReviewForm" onclick="GTM_productClick({
+                                    'name': '{{ product.title }}',
+                                    'id': '{{ product.id }}',
+                                    'price': '{{ product.price }}',
+                                    'category': '{{ product.parentPages|first.title }}',
+                                    'list': '{{ list|default }}',
+                                    'position': {{ position|default }},
+                                    })">
+                                <div class="c-rating-preview" data-value="{{ product.value('rating') }}">
+                                    <div class="_stars">
+                                        <div class="_active"></div>
+                                    </div>
+
+                                    <div class="_num">
+                                        (<span>{{ product.value('reviews_count') }} {% if product.value('reviews_count') == 1 or product.value('reviews_count')
+                                                == 21 or product.value('reviews_count') == 31 or product.value('reviews_count')
+                                                == 41 %}отзыв{% elseif product.value('reviews_count') == 2 or product.value('reviews_count')
+                                                == 3 or product.value('reviews_count') == 4 or product.value('reviews_count')
+                                                == 22 or product.value('reviews_count') == 23 or product.value('reviews_count')
+                                                == 24 %}отзыва{% else %}отзывов{% endif %}</span>)
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    <div class="item mini">
+                        <div class="price">
+                            {% if has_old_retail_price(product) %}
+                                <div class="old-price">{{ old_retail_price(product) }}</div>
+                            {% endif %}
+
+                            <div class="basePrice">
+                                {{ retail_price(product) }}</div>
+
+                            {% if has_wholesale_price(product) %}
+                                <div class="secondPrice">
+                                   опт от {{ wholesale_quantity(product) }} - {{ wholesale_price(product) }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col_cart">
+                    {% if product.value('rating') > 0 %}
+                        <div class="item default">
+                            <a href="{{ link(product.url) }}#jsReviewForm" onclick="GTM_productClick({
+                                    'name': '{{ product.title }}',
+                                    'id': '{{ product.id }}',
+                                    'price': '{{ product.price }}',
+                                    'category': '{{ product.parentPages|first.title }}',
+                                    'list': '{{ list|default }}',
+                                    'position': {{ position|default }},
+                                    })">
+                                <div class="c-rating-preview" data-value="{{ product.value('rating') }}">
+                                    <div class="_stars">
+                                        <div class="_active"></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    <div class="item default">
+                        <div class="price">
+                            {% if has_old_retail_price(product) %}
+                                <div class="old-price">{{ old_retail_price(product) }}</div>
+                            {% endif %}
+
+                            <div class="basePrice">{{ retail_price(product) }}</div>
+
+{#                            {% if has_wholesale_price(product) %}#}
+{#                                <div class="secondPrice">{{ wholesale_price(product) }}#}
+{#                                    (от {{ wholesale_quantity(product) }})#}
+{#                                </div>#}
+{#                            {% endif %}#}
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <div class="_counter"><span class="_ico-minus"></span>
+                            <input name="quantity" id="quantity_{{ product.id }}" type="text" value="1">
+                            <span class="_ico-plus"></span>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <a href="#" class="send-cart" onclick="
+                                yaCounter37953910.reachGoal('add_to_cart');
+                                GTM_addItemToCart({
+                                'name': '{{ product.title }}',
+                                'id': '{{ product.id }}',
+                                'price': '{{ product.price }}',
+                                'category': '{{ product.parentPages|first.title }}',
+                                'quantity': 'quantity_{{ product.id }}'
+                                })">
+                            <span class="_ico-cart"></span>В корзину
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="msg">Товар добавлен в корзину</div>
+        </div>
+    </form>
+</div>

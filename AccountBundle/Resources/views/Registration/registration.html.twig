@@ -1,0 +1,37 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% block title %}
+    Регистрация
+{% endblock %}
+
+{% block content %}
+    <div class="registry_blk">
+        {{ form_start(form) }}
+
+        <div class="blk_body">
+            <div class="_form-fields-wrap">
+                <div class="_form-fieldset">
+                    {{ form_row(form.firstName) }}
+                    {{ form_row(form.secondName) }}
+                    {{ form_row(form.email) }}
+                </div>
+
+                <div class="_form-fieldset">
+                    {{ form_row(form.password) }}
+                </div>
+
+                <div class="_form-fieldset _captch-fieldset">
+                    {{ form_row(form.captcha) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="blk_foot">
+            <div class="control-submit">
+                <button type="submit" class="orange_btn">Регистрация</button>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

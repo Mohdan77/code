@@ -1,0 +1,14 @@
+{% extends '@PostroykaAccount/Mail/layout.html.twig' %}
+
+{% block content %}
+    <p class="warning">Это сообщение автоматическое, на него отвечать не надо.</p>
+
+    <p>Добрый день, {{ user.username }}.</p>
+
+    <p>
+        Для изменения e-mail аккаунта перейдите по ссылке:
+        <a href="{{ url('account_code_execute', {code:code}) }}">{{ url('account_code_execute', {code:code}) }}</a>
+    </p>
+
+    <p>Код истекает: {{ code_expired|datetime_local }}</p>
+{% endblock %}

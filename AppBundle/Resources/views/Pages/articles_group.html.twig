@@ -1,0 +1,60 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% import '@PostroykaApp/_macros.html.twig' as macros %}
+
+{% block front_metatags %}
+    {{ parent() }}
+
+    {% if articles|length %}
+        {{ macros.pagination_meta(articles) }}
+    {% endif %}
+{% endblock %}
+
+
+{% block title %}
+    {{ page.title }}
+{% endblock %}
+
+
+{% block content %}
+    {% if page.body %}
+        <div class="_blk">
+            {{ page.body|raw }}
+        </div>
+    {% endif %}
+
+
+    {% if articles|length %}
+        <div class="articles_blk">
+            {% for article in articles %}
+                <div class="article_item">
+                    <a href="{{ link(article.url) }}" class="image">
+                        {% if article.image %}
+                            <img src="{{ asset(article.image)|imagine_filter('article') }}"
+                                 title="{{ article.title }}" alt="{{ article.title }}">
+                        {% endif %}
+                    </a>
+
+                    <div class="summary">
+                        <div class="data">
+                            {{ article.publishedAt|date_local }}
+                        </div>
+
+                        <a href="{{ link(article.url) }}" class="headline">{{ article.title }}</a>
+
+                        {% if article.description %}
+                            <div class="short-description">
+                                {{ article.description }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h2>Статьи не найдены</h2>
+    {% endif %}
+
+
+    {{ knp_pagination_render(articles, paginatorTemplate) }}
+{% endblock %}

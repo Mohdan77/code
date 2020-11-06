@@ -1,0 +1,46 @@
+<div class="owl-slider2_blk owl-carousel owl-loaded" id="js-desktop-slider2">
+    <div class="slider_wrap owl-stage-outer">
+        <div class="slider_wrap owl-stage">
+            {% for slide in slider %}
+                <div class="slide-owl owl-item" style="background-image:url({{ asset(slide.slide.image) }}); ">
+                    <div class="summary">
+                        <div class="item">
+                            <div class="headline">
+                                {{ slide.slide.title }}
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="description">
+                                {{ slide.slide.body|raw }}
+                            </div>
+                        </div>
+
+                        {% if slide.product|default %}
+                            <div class="item cr-t-a_c">
+                                <a href="{{ link(slide.product.url) ~ slide.anchor }}" class="orange_btn">Подробнее</a>
+                            </div>
+                        {% elseif slide.slide.values.product != null %}
+                            <div class="item cr-t-a_c">
+                                <a href="{{ slide.slide.values.product }}" target="_blank" class="orange_btn">Подробнее</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% if mobile_slider.id|default %}
+    <div class="pk-mobile-slider owl-carousel" id="js-mobile-slider">
+        {% for image in mobile_slider.images %}
+            <div class="pk-mobile-slider__slide">
+                <a href="{{ image.description }}">
+                    <img src="{{ asset(image.path) }}" alt="{{ image.title }}">
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}

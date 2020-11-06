@@ -1,0 +1,37 @@
+{% extends '@PostroykaAccount/Account/layout.html.twig' %}
+
+{% block title %}
+    Мой профиль
+{% endblock %}
+
+{% block account_content %}
+    <div class="user-date_blk">
+        {{ form_start(form) }}
+
+        <div class="blk_head">
+            <div class="blk_headline">Данные пользователя</div>
+        </div>
+
+        <div class="blk_body">
+            <div class="_form-fields-wrap">
+                <div class="_form-fieldset">
+                    {{ form_row(form.firstName) }}
+                    {{ form_row(form.secondName) }}
+                    {{ form_row(form.email) }}
+                </div>
+
+                <div class="_form-fieldset">
+                    {{ form_row(form.phone) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="blk_foot">
+            <div class="control-submit">
+                <button class="orange_btn">Сохранить изменения</button>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

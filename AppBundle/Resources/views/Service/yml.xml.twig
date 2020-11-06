@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<yml_catalog date="{{ 'now'|date('Y-m-d H:i') }}">
+    <shop>
+        <name>Постройка.бел</name>
+        <company>ООО «Строительный Берег»</company>
+        <url>https://www.postroyka.by</url>
+        <currencies>
+            <currency id="BYN" rate="1"/>
+        </currencies>
+        <categories>
+            {% for category in categories %}
+                <category id="{{ category.id }}"
+                          {% if category.parents|first.parent.id != root.id %}parentId="{{ category.parents|first.parent.id }}"{% endif %}
+                >{{ category.title }}</category>
+            {% endfor %}
+        </categories>
+        <offers>
+            {% for product in products %}
+                <offer id="{{ product.id }}" available="{{ product.available ? 'true' : 'false' }}">
+                    <url>{{ link(product.url, true) }}</url>
+                    <price>{{ product.price }}</price>
+                    <currencyId>BYN</currencyId>
+                    <categoryId>{{ product.parents|first.parent.id }}</categoryId>
+                    {% if product.image %}
+                        <picture>{{ link(product.image, true) }}</picture>
+                    {% endif %}
+                    <name>{{ product.title }}</name>
+                    {% if product.description %}
+                        <description>{{ product.description }}</description>
+                    {% endif %}
+                    {% if product.value('country_of_origin') %}
+                        <country_of_origin>{{ product.value('country_of_origin') }}</country_of_origin>
+                    {% endif %}
+                </offer>
+            {% endfor %}
+        </offers>
+    </shop>
+</yml_catalog>

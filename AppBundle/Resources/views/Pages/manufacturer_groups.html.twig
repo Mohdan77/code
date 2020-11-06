@@ -1,0 +1,35 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% block title %}
+    {{ page.title }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="sub-categories_blk delete_margin">
+        <div class="_row">
+            {{ page.body|raw }}
+            <h2>Продуктовые категории</h2>
+            {% for item in groups %}
+                {% set group = item.relation.parent %}
+                <div class="col_12">
+                    <div class="item">
+                        <a href="{{ link(page.url) ~ '?category=' ~ group.id }}" class="image">
+                            {% if group.image %}
+                                <img src="{{ asset(group.image)|imagine_filter('categories_item') }}"
+                                     title="{{ group.title }}"
+                                     alt="{{ group.title }}">
+                            {% endif %}
+                        </a>
+                        <a href="{{ link(page.url) ~ '?category=' ~ group.id }}" class="headline">{{ group.title }}</a>
+                        <p>
+                            <a href="{{ link(page.url) ~ '?category=' ~ group.id }}">
+                                {{ item.cnt }} товаров
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

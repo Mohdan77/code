@@ -1,0 +1,35 @@
+{% extends '@PostroykaAccount/Account/layout.html.twig' %}
+
+{% block title %}
+    Мои заказы
+{% endblock %}
+
+{% block account_content %}
+    <div class="my-order_blk">
+        <div class="_flex-table">
+            <table class="_table-custom">
+                <thead>
+                <tr>
+                    <th>Дата создания</th>
+                    <th>№ заказа</th>
+                    <th>Способ доставки</th>
+                    <th>Сумма, руб.</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for order in orders %}
+                    <tr data-link="{{ path('account_order', {'id': order.id}) }}">
+                        <td>{{ order.createdAt|date_local }}</td>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.deliveryMethod|default('самовывоз') }}</td>
+                        <td>{{ order.payPrice|number(true) }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {{ knp_pagination_render(orders, paginatorTemplate) }}
+{% endblock %}

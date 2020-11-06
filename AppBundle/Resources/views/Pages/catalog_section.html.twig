@@ -1,0 +1,33 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% block title %}
+    {{ page.title }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="categories_blk">
+        <div class="item-sizer"></div>
+
+        {% for item in groups %}
+            <div class="item" >
+                <a href="{{ link(item.group.url) }}" class="headline">{{ item.group.title }}</a>
+
+                {% if item.subgroups|default %}
+                    <ul class="vertical_nav">
+                        {% for subgroup in item.subgroups %}
+                            <li><a href="{{ link(subgroup.url) }}">{{ subgroup.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+
+    {% if page.body %}
+        <div class="_blk">
+            {{ page.body|raw }}
+        </div>
+    {% endif %}
+{% endblock %}

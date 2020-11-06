@@ -1,0 +1,19 @@
+postroyka_manager_home:
+    path:     /submarine/postroyka_manager
+    defaults: { _controller: PostroykaManagerBundle:ExtendedUsers:list }
+
+postroyka_manager_users:
+    path:     /submarine/postroyka_manager/users/list
+    defaults: { _controller: PostroykaManagerBundle:ExtendedUsers:list }
+
+postroyka_manager_users_create:
+    path:     /submarine/postroyka_manager/users/create
+    defaults: { _controller: PostroykaManagerBundle:ExtendedUsers:create }
+
+postroyka_manager_users_edit:
+    path:     /submarine/postroyka_manager/users/edit/{id}
+    defaults: { _controller: PostroykaManagerBundle:ExtendedUsers:edit }
+
+postroyka_manager_usesr_statistics:
+    path: /submarine/postroyka_manager/users/statistics
+    defaults: { _controller: PostroykaManagerBundle:ExtendedUsers:statistics }

@@ -1,0 +1,36 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% block title %}
+    {{ page.title }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="_blk">
+        {{ page.body|raw }}
+    </div>
+
+    {{ include("@PostroykaApp/Pages/_images.html.twig") }}
+    {{ include("@PostroykaApp/Pages/_files.html.twig") }}
+
+    <div class="feedback_blk">
+        <div class="blk_headline">Форма обратной связи</div>
+
+        {{ form_start(form) }}
+
+        {{ form_widget(form) }}
+        <div class="fl_upld">
+            <div class="empty three"></div>
+            <label><input id="fl_inp1" type="file" name="file">Прикрепите файл</label>
+            <div id="fl_nm1">Файл не выбран</div>
+        </div>
+        <div class="control-submit">
+            <button class="orange_btn">Отправить</button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+
+
+
+{% endblock %}

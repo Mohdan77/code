@@ -1,0 +1,19 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% block title %}
+    {{ page.title }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="_blk">
+        {{ page.body|raw }}
+    </div>
+
+    {{ include("@PostroykaApp/Pages/_images.html.twig") }}
+    {{ include("@PostroykaApp/Pages/_files.html.twig") }}
+
+    <div class="_blk">
+        {{ page.value('gallery')|raw }}
+    </div>
+{% endblock %}

@@ -1,0 +1,80 @@
+<div class="navigation_panel">
+    <div class="_container">
+        <div class="main-menu_blk">
+            <div class="_row">
+                <div class="col_">
+                    <ul class="main_nav">
+                        <li {% if nav|default|first.tag|default == 'catalog' %}class="sel"{% endif %}>
+                            <a href="{{ path('catalog') }}">
+                                <span class="_ico-menu"></span>
+                                Каталог товаров
+                            </a>
+                        </li>
+
+                        <li {% if page.tag|default == 'stock' %}class="sel"{% endif %}>
+                            <a href="{{ path('stock') }}">Товары на
+                                акции</a>
+                        </li>
+                        <li {% if page.tag|default == 'payment' %}class="sel"{% endif %}>
+                            <a href="{{ path('payment') }}">Оплата и
+                                доставка</a>
+                        </li>
+
+                        <li {% if page.tag|default == 'about' %}class="sel"{% endif %}>
+                            <a href="{{ path('about') }}">О нас</a>
+                        </li>
+
+                        <li {% if page.tag|default == 'contacts' %}class="sel"{% endif %}>
+                            <a href="{{ path('contacts') }}">Контакты</a>
+                        </li>
+
+                        {# <li {% if page.tag|default == 'video' %}class="sel"{% endif %}> #}
+                        {# <a href="{{ path('video') }}">Видео</a> #}
+                        {# </li> #}
+
+                        <li {% if page.tag|default == 'novelty' %}class="sel"{% endif %}>
+                            <a href="{{ path('novelty') }}">Новинки</a>
+                        </li>
+
+                        {# <li {% if page.tag|default == 'vacancy' %}class="sel"{% endif %}> #}
+                        {# <a href="{{ path('vacancy') }}">Вакансии</a> #}
+                        {# </li> #}
+                    </ul>
+                </div>
+
+
+                <div class="col_full show1100">
+                    <div class="c-search-widget" data-type="mobile">
+                        <button type="button" class="trigger"
+                                id="jsSearchWTrg">
+                            <span class="_ico-search"></span>
+                        </button>
+
+                        <form action="{{ path('search') }}" method="get"
+                              id="jsSearchW">
+                            <input type="text" name="search"
+                                   class="autocomplete"
+                                   placeholder="Поиск по каталогу"
+                                   data-url="{{ path('js_api', {'action': 'search-catalog'}) }}"/>
+                            <button type="submit"
+                                    class="_ico-search"></button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col_full hide1100">
+                    <div class="c-search-widget js-search-widget">
+                        <form action="{{ path('search') }}" method="get">
+                            <input type="text" name="search"
+                                   class="autocomplete"
+                                   placeholder="Поиск по каталогу"
+                                   data-url="{{ path('js_api', {'action': 'search-catalog'}) }}"/>
+                            <button type="submit"
+                                    class="_ico-search"></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

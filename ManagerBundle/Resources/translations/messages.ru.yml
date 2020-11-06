@@ -1,0 +1,6 @@
+PostroykaManagerBundle: Панель менеджера
+
+postroyka_manager:
+    users:
+        all_users: Все пользователи
+        create_user: Создать пользователя

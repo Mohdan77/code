@@ -1,0 +1,21 @@
+{% if (products | filter(product => product.value('rating') > 0) | length) > 0 %}
+{% set average_rating = ((products | reduce((sum, product) => sum + product.value('rating'))) / (products | filter(product => product.value('rating') > 0) | length)) | number_format(1) %}
+{% else %}
+    {% set average_rating = 0 %}
+{% endif %}
+{% set total_reviews = products | reduce((sum, product) => sum + product.value('reviews_count')) %}
+
+<div class="calc-result__sort">
+    <span class="calc-result__sort-info">
+        Выберите из {{ products|length }} вариантов
+    </span>
+    <br>
+    <span class="hide-on-mob">
+        <span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+            Рейтинг: <span itemprop="ratingValue">{{ average_rating }}</span>
+            на основе <span itemprop="ratingCount">{{ total_reviews }}</span> оценок
+            <meta itemprop="bestRating" content="5"/>
+            <meta itemprop="worstRating" content="0"/>
+        </span>
+    </span>
+</div>

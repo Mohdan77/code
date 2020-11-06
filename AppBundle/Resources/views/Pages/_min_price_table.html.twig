@@ -1,0 +1,21 @@
+<div style="margin-top: 30px;">
+    <h2 style="margin-top: 0;">Минимальные цены на {{ page.value('h1')|default(page.title) }}</h2>
+    <table class="min_price_table">
+        <thead>
+        <tr>
+            <th style="font-weight: bold; font-size: 17px; background-color: white">{{ page.title|default(page.title) }}</th>
+            <th style="font-weight: bold; font-size: 17px; background-color: white">Минимальная цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in cheap %}
+            <tr>
+                <td><a href="{{ item.link }}">{{ item.name }}</a></td>
+                <td>{{ item.price }}  BYN</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+

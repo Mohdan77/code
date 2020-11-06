@@ -1,0 +1,100 @@
+<div class="block-of-rew">
+    <h2>{{ page.value('h1')|default(page.title) }} - отзывы
+        покупателей</h2>
+    <ul class="item-specific-rev">
+        {% for product in page_entity %}
+            <li class="product-rev">
+                <div class="small_row">
+                    <div class="col_image">
+                        <div class="image">
+                            <a href="{{ link(product.page_entity.url) }}"
+                               title="{{ product.page_entity.title }} От 1-ого поставщика."
+                               onclick="GTM_productClick({
+                                       'name': '{{ product.page_entity.title }}',
+                                       'id': '{{ product.page_entity.id }}',
+                                       'price': '{{ product.page_entity.price }}',
+                                       'category': '{{ product.page_entity.parentPages|first.title }}',
+                                       'list': '{{ list|default }}',
+                                       'position': {{ position|default }},
+                                       })">
+                                {% if product.page_entity.value('alt_list_image')|default %}
+                                    <img src="{{ asset(product.page_entity.value('alt_list_image')) }}"
+                                         title="{{ product.page_entity.title }} От 1-ого поставщика."
+                                         alt="{{ product.page_entity.title }}">
+                                {% elseif product.page_entity.image %}
+                                    <img src="{{ asset(product.page_entity.image)|imagine_filter('product_item') }}"
+                                         title="{{ product.page_entity.title }} От 1-ого поставщика."
+                                         alt="{{ product.page_entity.title }}">
+                                {% endif %}
+
+                                {% if product.page_entity.value('color_code') %}
+                                    <div class="color"
+                                         style="background-color: {{ product.value('color_code') }}"></div>
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col_summary">
+                        <div class="item">
+                            <a href="{{ link(product.page_entity.url) }}"
+                               class="headline"
+                               onclick="GTM_productClick({
+                                       'name': '{{ product.page_entity.title }}',
+                                       'id': '{{ product.page_entity.id }}',
+                                       'price': '{{ product.page_entity.price }}',
+                                       'category': '{{ product.page_entity.parentPages|first.title }}',
+                                       'list': '{{ list|default }}',
+                                       'position': {{ position|default }},
+                                       })">
+                                {{ product.page_entity.title }}</a>
+                        </div>
+                        <div class="item mini">
+                            <div class="price">
+                                {% if has_old_retail_price(product.page_entity) %}
+                                    <div class="old-price">{{ old_retail_price(product.page_entity) }}</div>
+                                {% endif %}
+                                <div class="basePrice">
+                                    {{ retail_price(product.page_entity) }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rev-info">
+                        <div class="item" itemprop="review" itemscope itemtype="http://schema.org/Review">
+                            <div class="head">
+                                <span class="_author" itemprop="author">{{ product.page_review.username }}</span>,
+                                <span class="_date">
+                        <meta itemprop="datePublished"
+                              content="{{ product.page_review.createdAt|date('Y-m-d') }}">{{ product.page_review.createdAt|date_local }}
+                        </span>
+                            </div>
+
+                            <div class="body">
+                                <div class="_elem">
+                                    <div itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+                                        <meta itemprop="worstRating" content="1">
+                                        <meta itemprop="bestRating" content="5">
+
+                                        <div class="c-rating-preview" data-value="{{ product.page_review.rating }}">
+                                            <div class="_stars">
+                                                <div class="_active"></div>
+                                            </div>
+
+                                            <div class="_num">
+                                                Оценка: <span itemprop="ratingValue">{{ product.page_review.rating }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="_elem">
+                                    <div class="text" itemprop="reviewBody">{{ product.page_review.comment }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

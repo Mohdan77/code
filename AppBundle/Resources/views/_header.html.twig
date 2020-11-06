@@ -1,0 +1,266 @@
+<div class="header_panel">
+    <div class="_container mobile_act_user" style="text-align: right"><span id="akt_user" class="text"></span></div>
+    <div class="_container">
+        <div class="large_row">
+            <div class="col_full">
+                <a href="{{ path('home') }}"
+                   title="Главная страница Postroyka.by" class="_logo">
+                    <img src="{{ asset('bundles/postroykaapp/images/logo_5.svg') }}"
+                         title="Магазин строительных материалов"
+                         alt="Продажа строительных материалов в интернет-магазине «Постройка.бел»">
+
+                    {# Happy new year! No delete, just comment #}
+                    {#                    title="Главная страница Postroyka.by" class="_logo _logo-ny">#}
+                    {#                    <img src="{{ asset('bundles/postroykaapp/images/logo_ny.png') }}"#}
+                    {#                    title="Магазин строительных материалов"#}
+                    {#                    alt="Продажа строительных материалов в интернет-магазине «Постройка.бел»">#}
+
+                    <span class="text">Склад-магазин стройматериалов</span>
+                </a>
+            </div>
+
+            <div class="col_ hide768">
+                <div class="_head-phone">
+                    <div class="_row">
+                        {{ _blocks.header_phones.value|raw }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col_ hide1280">
+                <div class="_head-info">
+                    <div class="item">
+                        <div class="mode">
+                            {{ _blocks.header_schedule.value|raw }}
+                        </div>
+                    </div>
+
+                    {#                    <div class="item">#}
+                    {#                        <div class="delivery">#}
+                    {#                            <a href="#" class="openDeliveryMap">#}
+                    {#                                <span class="_ico-delivery"></span>#}
+                    {#                                <span class="_text">Стоимость доставки</span>#}
+                    {#                            </a>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+
+                    <div class="item">
+                        <div class="delivery">
+                            <a href="/contacts/#karta">
+                                <span class="_text">{{ _blocks.header_address.value|raw }}</span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col_ hide768 s-text-a-r">
+                <div class="login_blk">
+                    {% if app.user %}
+                        <a href="{{ path('account') }}">{{ app.user.username }}</a><a
+                            href="{{ path('logout') }}">Выход</a>
+                    {% else %}
+                        <a href="{{ path('registration') }}">Регистрация</a><a href="{{ path('login') }}">Вход</a>
+                    {% endif %}
+                </div>
+
+                <div class="cart_blk">
+                    <a href="{{ path('cart') }}" title="В корзину" class="cart">
+                        <div class="_ico-cart"></div>
+                        <div class="num">{{ cart.countQuantity }}</div>
+                        <div class="title">Ваша корзина:</div>
+                        <div class="summ">{{ cart.total|number(true) }} р.</div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col_full show768">
+                <div class="head-links_mobile">
+                    <div class="head-links_mobile__column-logo">
+                        <a href="{{ path('home') }}"
+                           title="Главная страница Postroyka.by" class="_logo">
+                            <img src="{{ asset('bundles/postroykaapp/images/logo_51.svg') }}"
+                                 title="Магазин строительных материалов"
+                                 alt="Продажа строительных материалов в интернет-магазине «Постройка.бел»">
+                            <span class="text">Склад-магазин стройматериалов</span>
+                        </a>
+                    </div>
+
+                    <div class="head-links_mobile__column-icon">
+                        <a href="#" class="menu" id="swipe-menu_btn">
+                            {{ source('@PostroykaApp/svg-set/menu_icon.svg') }}
+                        </a>
+
+                        <a href="#" class="mobil-phones_popup-btn">
+                            {{ source('@PostroykaApp/svg-set/phone_icon.svg') }}
+                        </a>
+
+                        {#<a href="#" class="search" id="jsSearchW2Trg">#}
+                        {#{{ source('@PostroykaApp/svg-set/search.svg') }}#}
+                        {#</a>#}
+
+                        <a href="{{ path('cart') }}" class="cart">
+                            {{ source('@PostroykaApp/svg-set/cart_icon.svg') }}
+                            <span class="num">{{ cart.countQuantity }} </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sticky_cart">
+            <div class="cart_blk">
+                <a href="{{ path('cart') }}" title="В корзину" class="cart">
+                    <div class="_ico-cart"></div>
+                    <div class="num">{{ cart.countQuantity }}</div>
+                    <div class="title">Ваша корзина:</div>
+                    <div class="summ">{{ cart.total|number(true) }} р.</div>
+                </a>
+            </div>
+            <div class="sticky_cart_info">
+                <div class="cart_blk cart-info">
+                    <span class="cart-info_close-btn"></span>
+                    <div>При заказе на сумму от 1000 рублей доставка по городу и 4-ой зоне бесплатно (масса груза до
+                        2100 кг, обьём до 11 кубов).
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="c-search-widget js-search-widget show859" data-type="mobile">
+            <form action="{{ path('search') }}" method="get" id="jsSearchW2">
+                <button type="submit" class="_ico-search"></button>
+                <input type="text" name="search" class="autocomplete js-header-search-input" placeholder="Поиск"
+                       data-url="{{ path('js_api', {'action': 'search-catalog'}) }}"/>
+            </form>
+        </div>
+
+        <div class="mob-menu_categories swipe-menu_mobile">
+            <div class="mob-menu_categories__head-wrapper">
+                <div class="mob-menu_categories__head open_nav">
+                    КАТАЛОГ <span class="_ico-arr-right"></span>
+                </div>
+                <div id="head-close-icon"
+                     class="mob-menu_categories__head-close-icon"> {{ source('@PostroykaApp/svg-set/close_icon.svg') }} </div>
+            </div>
+            <ul class="vertical_nav categories_nav_mob-menu open_nav">
+                {% for group in left_menu %}
+                    <li {% if group.group.id == nav[1]|default.id|default or group.group.id == page.id|default %}class="sel
+                    {% if (nav[1]|default and group.subgroups|default) or nav[2]|default %}sub-active{% endif %}
+                "{% endif %}>
+
+                        <a href="{{ link(group.group.url) }}"
+                           {% if group.subgroups|default %}class="group"{% else %}class="lonely-a" {% endif %}>{{ group.group.title }}</a>
+                        <div class="mob-menu_categories__arr-icon"><span class="_ico-arr-right"></span></div>
+
+                        {% if group.subgroups|default %}
+                            <div class="subnav">
+                                <ul class="second-level_mob">
+                                    {% for subgroup in group.subgroups %}
+                                        <li {% if subgroup.id == nav[2]|default.id|default
+                                                or subgroup.id == page.id|default %}class="sel{% if (nav[2]|default and group.subgroups|default) or nav[3]|default %}sub-active{% endif %}"{% endif %}>
+                                            <a href="{{ link(subgroup.url) }}"
+                                               {% if group.subsubgroups[subgroup.id]|default %}class="group"
+                                               {% else %}class="group-child"{% endif %}>{{ subgroup.title }}</a>
+                                            {% if group.subsubgroups[subgroup.id]|default %}
+                                                <div class="mob-menu_categories__arr-icon-level2">
+                                                    <span class="_ico-arr-right"></span>
+                                                </div>{% endif %}
+                                            {% if group.subsubgroups[subgroup.id]|default %}
+                                                <div class="subsubnav">
+                                                    <ul>
+                                                        {% for subsubgroup in group.subsubgroups[subgroup.id] %}
+                                                            <li {% if subsubgroup.id == nav[3]|default.id|default
+                                                                    or subsubgroup.id == page.id|default %}class="sel"{% endif %}>
+                                                                <a href="{{ link(subsubgroup.url) }}"
+                                                                   class="subgroup-child">{{ subsubgroup.title }}</a>
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="mob-menu_categories__head-wrapper">
+                <div class="mob-menu_categories__head open_nav">
+                    MЕНЮ САЙТА<span class="_ico-arr-right"></span>
+                </div>
+            </div>
+            <ul class="vertical_nav open_nav">
+                <li {% if page.tag|default == 'stock' %}class="sel"{% endif %}>
+                    <a href="{{ path('stock') }}">Товары на акции</a>
+                </li>
+                <li {% if page.tag|default == 'payment' %}class="sel"{% endif %}>
+                    <a href="{{ path('payment') }}">Оплата и доставка</a>
+                </li>
+
+                <li {% if page.tag|default == 'about' %}class="sel"{% endif %}>
+                    <a href="{{ path('about') }}">О нас </a>
+                </li>
+
+                <li {% if page.tag|default == 'contacts' %}class="sel"{% endif %}>
+                    <a href="{{ path('contacts') }}">Контакты</a>
+                </li>
+
+               {#  <li {% if page.tag|default == 'vacancy' %}class="sel"{% endif %}>
+                    <a href="{{ path('vacancy') }}">Вакансии</a>
+                </li>#}
+
+                <li {% if page.tag|default == 'video' %}class="sel"{% endif %}>
+                    <a href="{{ path('video') }}">Видео</a>
+                </li>
+
+                <li {% if page.tag|default == 'novelty' %}class="sel"{% endif %}>
+                    <a href="{{ path('novelty') }}">Новинки</a>
+                </li>
+                <li {% if page.tag|default == 'sales-leader' %}class="sel"{% endif %}>
+                    <a href="{{ path('sales-leader') }}">Лидеры продаж</a>
+                </li>
+                <li {% if page.tag|default == 'brands' %}class="sel"{% endif %}>
+                    <a href="{{ path('brands') }}">Бренды</a>
+                </li>
+                <li {% if page.tag|default == 'articles' %}class="sel"{% endif %}>
+                    <a href="{{ path('articles') }}">Статьи</a>
+                </li>
+
+                <li {% if page.tag|default == 'charity' %}class="sel"{% endif %}>
+                    <a href="{{ path('charity') }}">Благотворительность</a>
+                </li>
+
+                <li {% if page.tag|default == 'director' %}class="sel"{% endif %}>
+                    <a href="{{ path('director') }}">Написать директору</a>
+                </li>
+
+                <li {% if page.tag|default == 'proposition' %}class="sel"{% endif %}>
+                    <a href="{{ path('proposition') }}">Оставить отзыв, предложение (анонимно)</a>
+                </li>
+
+                <li {% if page.tag|default == 'price' %}class="sel"{% endif %}>
+                    <a href="{{ path('price') }}">Прайс-лист</a>
+                </li>
+
+                {% if app.user %}
+                    <li>
+                        <a href="{{ path('account') }}">
+                            Мой кабинет
+                        </a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{{ path('login') }}" class="login">
+                            Вход
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,56 @@
+# Безопасность
+login:
+    path: /login
+    defaults: { _controller: PostroykaAccountBundle:Auth:login }
+
+login_check:
+    path: /login_check
+
+logout:
+    path: /logout
+
+restore_password:
+    path: /amnesia
+    defaults: { _controller: PostroykaAccountBundle:Auth:restorePassword }
+
+registration:
+    path: /registration
+    defaults: { _controller: PostroykaAccountBundle:Registration:registration }
+
+registration_success:
+    path: /registration-success
+    defaults: { _controller: PostroykaAccountBundle:Registration:success }
+
+registration_new_code_confirm:
+    path: /registration/send-new-code
+    defaults: { _controller: PostroykaAccountBundle:Registration:sendNewActivationCode }
+
+account_code_execute:
+    path: /code/{code}
+    defaults: { _controller: PostroykaAccountBundle:Confirmation:codeExecute }
+
+
+# Личный кабинет
+account:
+    path: /account
+    defaults: { _controller: PostroykaAccountBundle:Account:orders }
+
+account_orders:
+    path: /account/orders
+    defaults: { _controller: PostroykaAccountBundle:Account:orders }
+
+account_order:
+    path: /account/order/{id}
+    defaults: { _controller: PostroykaAccountBundle:Account:order }
+
+account_profile:
+    path: /account/profile
+    defaults: { _controller: PostroykaAccountBundle:Account:profile }
+
+account_password:
+    path: /account/password
+    defaults: { _controller: PostroykaAccountBundle:Account:password }
+
+account_email:
+    path: /account/email
+    defaults: { _controller: PostroykaAccountBundle:Account:email }

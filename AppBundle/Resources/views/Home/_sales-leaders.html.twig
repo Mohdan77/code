@@ -1,0 +1,20 @@
+<div class="top-products_blk">
+{#    <div class="blk_headline">Лидеры продаж</div>#}
+
+    <div class="blk_body">
+        <div class="_catalog mini_catalog">
+            <div class="_row">
+                {% for product in salesleaders %}
+                    {{ include('@PostroykaApp/Pages/_product_item.html.twig', {'list': 'Товары на главной', 'position': loop.index}) }}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="blk_foot">
+        <div class="sales">
+            <span class="_ico-sales"></span>
+            <a href="{{ path('sales-leader') }}">Все лидеры продаж</a>
+        </div>
+    </div>
+</div>

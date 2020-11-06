@@ -1,0 +1,36 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% block title %}
+    {{ page.title }}
+{% endblock %}
+
+
+{% block content %}
+    <div>
+        {{ page.body|raw }}
+
+        {% for firstLetter in brands|keys %}
+            <a class="brand-scroll" href="#{{ firstLetter }}">{{ firstLetter }}</a>
+            {% if not loop.last %}|{% endif %}
+        {% endfor %}
+
+        <div class="list-of-brands">
+            {% for firstLetter, list in brands %}
+                <div id="{{ firstLetter }}" class="specific-letter-brands">
+                    <div class="every-letter_block">
+                        <span class="letter-of-the-alphabet">{{ firstLetter }}</span>
+                    </div>
+                    <div class="brand-names">
+                        {% for brand in list %}
+                            <p class="every-brand-name">
+                                <a href="{{ link(brand.url) }}">
+                                    {{ brand.title }}
+                                </a>
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

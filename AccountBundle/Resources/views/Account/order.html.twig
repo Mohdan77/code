@@ -1,0 +1,108 @@
+{% extends '@PostroykaAccount/Account/layout.html.twig' %}
+
+{% block title %}
+    Заказ №{{ order.id }}
+{% endblock %}
+
+
+{% block account_content %}
+    <div class="order-info_blk">
+        <div class="blk_head">
+            <ul class="list_clear status">
+                <li>
+                    <span class="_ico-calendar"></span>Создан: {{ order.createdAt|date_local }}
+                </li>
+                <li>
+                    <span class="_ico-box"></span>Статус: {{ order.status.title }}
+                </li>
+            </ul>
+        </div>
+
+
+        <div class="blk_body">
+            <div class="_flex-table">
+                <table class="_table-custom">
+                    <thead>
+                    <tr>
+                        <th class="summary">Название</th>
+                        <th>Цена</th>
+                        <th>Количество</th>
+                        <th class="summ">Сумма</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for item in order.items %}
+                        <tr>
+                            <td class="summary">
+                                <a href="{{ link(item.url) }}">{{ item.title }}</a>
+                            </td>
+
+                            <td>{{ item.unitPrice|number(true) }} р.</td>
+
+                            <td>{{ item.quantity }}</td>
+
+                            <td>
+                                <div class="summ">{{ item.total|number(true) }} р.</div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="blk_foot">
+            <div class="additionally">
+                <span><b>Доставка:</b>{{ order.deliveryMethod|default('самовывоз') }}</span>
+                <span><b>Оплата:</b>{{ order.paymentMethod|default('наличные') }}</span>
+            </div>
+
+            <div class="_total">
+                <div class="headline">Итого</div>
+
+                {% if order.options.get('total_weight').value|default %}
+                    {% set total_weight = order.options.get('total_weight').value %}
+                    <div class="item">
+                        <div class="title">Масса заказа:</div>
+                        <div class="content">
+                            {% if total_weight|number == total_weight %}
+                                {{ total_weight|number }} кг.
+                            {% else %}
+                                {{ total_weight|number_format(1, ',', ' ') }} кг.
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="item">
+                    <div class="title">Ваша скидка:</div>
+                    <div class="content">{{ order.totalDiscount|number(true) }} руб.</div>
+                </div>
+
+                <div class="item">
+                    <div class="title">Доставка:</div>
+                    <div class="content">{{ order.options.get('delivery_price').value|default|number(true) }} руб.</div>
+                </div>
+
+                <div class="item">
+                    <div class="title">Разрузка:</div>
+                    <div class="content">{{ order.options.get('unloading_price').value|default|number(true) }} руб.
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="title">Итого:</div>
+                    <div class="content">{{ order.payPrice|number(true) }} руб.</div>
+                </div>
+
+                {% if order.cardPayment and not order.paid %}
+                    <div style="margin-top: 20px;">
+                        <a href="{{ order.cardPayment.redirectUrl }}" class="orange_btn">Оплатить картой</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

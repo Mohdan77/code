@@ -1,0 +1,116 @@
+<div class="footer_panel">
+    <div class="footer_blk">
+        <div class="_container">
+            <div class="hide768">
+                <div class="large_row">
+                    <div class="col_">
+                        <div class="_copyright">
+                            <div class="text">
+                                &copy; {{ date()|date('Y') }}<br>
+                                Постройка.бел
+                            </div>
+                        </div>
+                    </div>
+
+                    {{ _blocks.footer_menu.value|raw }}
+
+                    <div class="col_ hide1024">
+                        <div class="_foot-address">
+                            {{ _blocks.footer_address.value|raw }}
+                        </div>
+
+                        <div style="margin-top: 12px">
+                            {{ include('@PostroykaApp/_social-nav.html.twig') }}
+                        </div>
+
+                        <div class="_itmedia">
+                            Разработка сайта &#8210; <a href="http://itmedia.by" rel="nofollow"
+                                                        target="_blank">itmedia</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="show768">
+                <div class="_head-phone">
+                    <div class="_row">
+                        <div class="col_">
+                            <ul class="_phone-list">
+                                <li>
+                                    <a class="_opr-viber" href="viber://chat?number=%2B375293298038">cap</a>
+                                    {#<span class="_opr-velcom">cap</span>#}
+                                    <span class="_opr-a1">cap</span><a href="tel:+375293298038">8 (029)
+                                        329-80-38 </a>
+                                </li>
+                                <li>
+                                    <a class="_opr-viber" href="viber://chat?number=%2B375296499819">cap</a>
+                                    <span class="_opr-a1">cap</span><a href="tel:+375296499819">8 (029)
+                                        649-98-19 </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col_">
+                            <ul class="_phone-list">
+                                <li>
+                                    <span class="_opr-mts">cap</span><a href="tel:+375297713511"> 8 (029)
+                                        771-35-11 </a>
+                                </li>
+                                <li>
+                                    <span class="_opr-mts">cap</span><a href="tel:+375297670470"> 8 (029)
+                                        767-04-70 </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="vertical_nav footer-mobil_nav">
+                    <li {% if nav|default|first.tag|default == 'catalog' %}class="sel"{% endif %}>
+                        <a href="{{ path('catalog') }}">Каталог товаров</a>
+                    </li>
+                    <li {% if page.tag|default == 'payment' %}class="sel"{% endif %}>
+                        <a href="{{ path('payment') }}">Оплата и доставка</a>
+                    </li>
+                    <li {% if page.tag|default == 'contacts' %}class="sel"{% endif %}>
+                        <a href="{{ path('contacts') }}">Контакты</a>
+                    </li>
+                </ul>
+
+                <div style="text-align: center">
+                    {{ include('@PostroykaApp/_social-nav.html.twig') }}
+                </div>
+            </div>
+
+            <div class="c-google-rating">
+                <div id="google-reviews" data-rating=""></div>
+                <div id="schema">
+                    <span itemscope="" itemtype="http://schema.org/Store">
+                        <meta itemprop="url" content="https://www.postroyka.by">
+                        <meta itemprop="address" content="г. Минск, ул. Уручская 12-А">
+                        <meta itemprop="telephone" content="+375296940640">
+                        <meta itemprop="image"
+                              content="{{ absolute_url(asset('bundles/postroykaapp/images/logo_5.svg')) }}">
+                        Рейтинг <span itemprop="name">Склад-магазин стройматериалов Постройка.бел </span>
+                        <span itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
+                            <span itemprop="ratingValue">{{ _options.value('postroyka_manager.google_rating') }}</span>/
+                            <span itemprop="bestRating">5</span> на основе <span
+                                    itemprop="ratingCount">{{ _options.value('postroyka_manager.google_rating_count') }}</span>
+                            <span> отзывов пользователей <a href="https://goo.gl/maps/aUQtfVcPns42" rel="nofollow"
+                                                            target="_blank">Google</a></span>
+                         </span>
+                    </span>
+                </div>
+                <div class="payment-logo">
+                    <img src="{{ asset('bundles/postroykaapp/images/logo_footer.png') }}">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="company-info_blk">
+            <div class="_container">
+                {{ _blocks.footer_company_info.value|raw }}
+            </div>
+        </div>
+    </div>
+</div>

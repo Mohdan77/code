@@ -1,0 +1,18 @@
+{% if page.files|length %}
+    <div class="files_blk">
+        <div class="blk_headline">Файлы</div>
+
+        <ul class="list_clear _files">
+            {% for file in page.files %}
+                <li>
+                    <a href="{{ asset(file.path) }}" class="file_{{ file.ext }}" title="{{ file.title }}" target="_blank">
+                        <span class="text">{{ file.title }}</span>
+                        <span class="size">
+                        ({{ file.ext }}, {{ (file.size / (1024 * 1024))|number_format(1, ',') }} {{ 'size.mb'|trans }})
+                    </span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

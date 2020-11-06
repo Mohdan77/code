@@ -1,0 +1,35 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% block title %}
+    {{ page.title }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="_blk vacancy">
+        {{ page.body|raw }}
+    </div>
+
+    <div class="feedback-vacancy_blk" id="vacancy">
+        {{ form_start(form) }}
+
+        <div class="_form-fieldset">
+            {{ form_row(form.name) }}
+            {{ form_row(form.phone) }}
+            {{ form_row(form.job) }}
+            {{ form_row(form.message) }}
+            {{ form_row(form.recaptcha) }}
+            <div class="fl_upld">
+                <div class="empty"></div>
+                <label><input id="fl_inp" type="file" name="file" multiple>Загрузить фото или резюме</label>
+                <div id="fl_nm">Файл не выбран</div>
+            </div>
+        </div>
+        <div class="control-submit">
+            <button class="orange_btn">Отправить</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+    {{ include("@PostroykaApp/Pages/_images.html.twig") }}
+    {{ include("@PostroykaApp/Pages/_files.html.twig") }}
+{% endblock %}

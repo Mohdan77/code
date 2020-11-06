@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
+    <channel>
+        <title>Постройка.бел</title>
+        <link>https://www.postroyka.by</link>
+        {% for product in products %}
+            <item>
+                <g:id>{{ product.id }}</g:id>
+                <g:mpn>{{ product.id }}</g:mpn>
+                <g:title>{{ product.title }}</g:title>
+                <g:description>{{ product.description }}</g:description>
+                <g:link>{{ link(product.url, true) }}</g:link>
+                <g:image_link>{% if product.image %}{{ link(product.image, true) }}{% endif %}</g:image_link>
+                <g:condition>new</g:condition>
+                <g:availability>{{ product.available ? 'in stock' : 'out of stock' }}</g:availability>
+                <g:price>{{ product.price }} BYN</g:price>
+            </item>
+        {% endfor %}
+    </channel>
+</rss>

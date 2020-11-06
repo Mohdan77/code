@@ -1,0 +1,50 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% block title %}
+    {{ page.value('h1')|default(page.title) }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="sub-categories_blk">
+        <div class="_row">
+            {% for item in groups %}
+                <div class="col_12">
+                    <div class="item">
+                        <a href="{{ link(item.group.url) }}" class="image">
+                            {% if item.group.image %}
+                                <img src="{{ asset(item.group.image)|imagine_filter('categories_item') }}"
+                                     title="{{ item.group.title }} От 1-ого поставщика."
+                                     alt="{{ item.group.title }}">
+                            {% endif %}
+                        </a>
+
+                        <a href="{{ link(item.group.url) }}" class="headline">{{ item.group.title }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    {% if popular|default %}
+        <div class="products_blk">
+            <h2>Популярные товары</h2>
+
+            <div class="_catalog mini_catalog">
+                <div class="_row">
+                    {% for product in popular %}
+                        {{ include('@PostroykaApp/Pages/_product_item.html.twig', {'list': 'Популярные товары', 'position': loop.index}) }}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+    {% if page.body %}
+        <div class="_blk">
+            {{ page.body|raw }}
+        </div>
+    {% endif %}
+{% endblock %}

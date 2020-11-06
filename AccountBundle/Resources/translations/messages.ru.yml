@@ -1,0 +1,56 @@
+login:
+    email: Ваш e-mail
+    password: Пароль
+    remember_me: Запомнить меня
+
+
+message:
+    error:
+        form_invalid: Форма заполнена не верно
+        password_must_match: Пароли должны совпадать
+        login_failed: Неверный пароль или e-mail
+        registration_email_not_unique: Пользователь с таким e-mail существует
+        email_not_send: Что-то пошло не так, письмо не отправлено. Для решения проблемы напишите в службу поддержки.
+        code_confirm_not_found: Код активации не найден
+        user_disabled: Пользователь отключен
+        user_not_found: Пользователь не найден
+        current_password_not_valid: Вы ввели неверно действующий пароль
+        username_not_valid: Пользователь с таким именем уже существует
+        new_comment_notices_not_closed: Ошибка! Попробуйте еще раз
+    info:
+        not_registration: Регистрация временно отключена
+    success:
+        code_confirm_seccess: Активация прошла успешно
+        new_code_confirm_send: Новый код активации отправлен вам на e-mail
+        profile_saved: Ваши данные сохранены
+        password_changed: Ваш пароль обновлен
+        confirm_change_email: На ваш e-mail отправлено письмо с подтверждением. Перейдите по ссылке в теле письма, чтобы изменеия вступили в силу
+        password_restore_must_confirmed: На ваш e-mail отправлено письмо с подтверждением.
+        code_confirm_success: Код активации подтвержден
+
+
+user:
+    first_name: Имя
+    second_name: Фамилия
+    company: Организация
+    email: E-mail
+    first_name_description: Имя
+    second_name_description: Фамилия
+    company_description: Организация
+    email_description: E-mail
+    password: Пароль
+    repeat_password: Введите ещё раз пароль
+    password_current: Текущий пароль
+    password_new: Новый пароль
+    phone: Телефон
+    phone_description: '+375 (__) ___-__-__'
+    email_new: Новый E-mail
+    discount_card: Скидка
+    discount_description: Выберите карту
+    discount_card_number: Номер карты
+
+mail:
+    subject:
+        registration: Регистрация на Postroyka.by
+        change_email: Изменение E-mail на Postroyka.by
+        password_restore: Восстановление пароля на Postroyka.by

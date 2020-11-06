@@ -1,0 +1,45 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% block main_wrapper_class %}index_page{% endblock %}
+
+
+{% block content_layout %}
+    {{ include('@PostroykaApp/Home/_slider.html.twig') }}
+    {{ include('@PostroykaApp/Home/_advantages.html.twig') }}
+
+
+    <div id="home-tabs" class="main-tabs">
+        <ul class="main-tabs_title">
+            <li class="main-tabs_li active blk_headline">
+                Товары на акции
+            </li>
+            <li class="main-tabs_li blk_headline m-novelty">
+                Новинки
+            </li>
+            <li class="main-tabs_li blk_headline">
+                Лидеры продаж
+            </li>
+        </ul>
+        <div class="main-tabs_content active">
+            {{ include('@PostroykaApp/Home/_stock.html.twig') }}
+        </div>
+        <div class="main-tabs_content">
+            {{ include('@PostroykaApp/Home/_novelty.html.twig') }}
+        </div>
+        <div class="main-tabs_content">
+            {{ include('@PostroykaApp/Home/_sales-leaders.html.twig') }}
+        </div>
+    </div>
+
+
+    <div class="blk_foot">
+        {{ page.body | raw }}
+    </div>
+{% endblock %}
+
+
+{% block gtm_header %}
+    {{ parent() }}
+
+    {{ include('@PostroykaApp/_gtm_impressions.html.twig', {'products': stock, 'list': 'Товары на главной'}) }}
+{% endblock %}

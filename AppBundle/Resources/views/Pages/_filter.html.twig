@@ -1,0 +1,37 @@
+{% if filter %}
+    {% if not page.value('hide_filter') %}
+        <div class="filter_blk">
+            <div class="_row">
+                <div class="col_full">
+                    {% if not page.value('hide_filter')|default(false) %}
+                        {% for property in filter %}
+                            <div class="control-row">
+                                <div class="control-widget">
+                                    <select>
+                                        <option>{{ property.property.title }}</option>
+
+                                        {% for key, value in property.property.valuesChoice %}
+                                            <option value="f{{ property.property.id }}_v{{ key }}">{{ value }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                {% if page.value('master_secrets') %}
+                    <div class="col_ hide1024">
+                        <div class="secret_btn">
+                            <a href="#master-secrets">Краткие секреты</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% else %}
+    <style>
+        .btn-filter-catalog_blk.orange_btn {display: none}
+    </style>
+{% endif %}

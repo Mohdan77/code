@@ -1,0 +1,317 @@
+{% extends '@SubmarineFront/base.html.twig' %}
+
+{% set paginatorTemplate = 'PostroykaAppBundle:theme:pagination.html.twig' %}
+
+{% set ver = 987654 %}
+
+
+{% block front_css %}
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=latin,cyrillic" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet" href="{{ asset('bundles/postroykaapp/css/vendor.css') }}?{{ ver }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('bundles/postroykaapp/css/main.css') }}?{{ ver }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('bundles/postroykaapp/css/google-places.css') }}">
+{% endblock %}
+
+{% block front_javascript_header %}
+    {% block gtm_header %}{% endblock %}
+{% endblock %}
+
+{% block front_javascript %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.2/masonry.pkgd.min.js"></script>
+    <script src="{{ asset('bundles/postroykaapp/js/vendor.js') }}?{{ ver }}"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=dee32e4c-4a0e-49b4-81ec-d258352dd10c&lang=ru_RU"></script>
+    <script>{{ _options.value('submarine_front.map_data')|raw }}</script>
+    <script src="{{ asset('bundles/postroykaapp/js/delivery-map.js') }}?{{ ver }}"></script>
+    <script src="{{ asset('bundles/postroykaapp/js/main.js') }}?{{ ver }}"></script>
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58d242219fb4308c"></script>
+    <script src="{{ asset('bundles/postroykaapp/js/google-places.js') }}?{{ ver }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyC2EQ8PJNygivd4kgEfFDK78nxZHTC5Jcs"></script>
+
+    {% block gtm_footer %}
+        {# GTM: Добавление товара в корзину #}
+        <script>
+            function GTM_addItemToCart(product) {
+                var quantity = product.quantity ? document.querySelector('#' + product.quantity).value : 1;
+
+                window.dataLayer = window.dataLayer || [];
+                dataLayer.push({
+                    'ecommerce': {
+                        'currencyCode': 'USD',
+                        'add': {
+                            'products': [{
+                                'name': product.name,
+                                'id': product.id,
+                                'price': product.price,
+                                'category': product.category,
+                                'quantity': quantity
+                            }]
+                        }
+                    },
+                    'event': 'gtm-ee-event',
+                    'gtm-ee-event-category': 'Enhanced Ecommerce',
+                    'gtm-ee-event-action': 'Adding a Product to a Shopping Cart',
+                    'gtm-ee-event-non-interaction': 'False'
+                });
+            }
+        </script>
+
+
+        {# GTM: Отслеживание кликов по товарам #}
+        <script>
+            function GTM_productClick(product) {
+                window.dataLayer = window.dataLayer || [];
+                dataLayer.push({
+                    'ecommerce': {
+                        'currencyCode': 'USD',
+                        'click': {
+                            'actionField': {'list': product.list},
+                            'products': [{
+                                'name': product.name,
+                                'id': product.id,
+                                'price': product.price,
+                                'category': product.category,
+                                'position': product.position
+                            }]
+                        }
+                    },
+                    'event': 'gtm-ee-event',
+                    'gtm-ee-event-category': 'Enhanced Ecommerce',
+                    'gtm-ee-event-action': 'Product Clicks',
+                    'gtm-ee-event-non-interaction': 'False'
+                });
+            }
+        </script>
+    {% endblock %}
+{% endblock %}
+
+
+{% block front_metatags %}
+    {{ parent() }}
+
+    <meta name="robots" content="index, follow"/>
+
+    <meta name="geo.placename" content="ул. Уручская 21, Минск, Беларусь"/>
+    <meta name="geo.position" content="53.9554750;27.6914730"/>
+    <meta name="geo.region" content="BY-"/>
+    <meta name="ICBM" content="53.9554750, 27.6914730"/>
+
+    <meta property="og:title" content="{{ page.title|default ~ ' — Постройка.бел' }}"/>
+    <meta property="og:description" content="{{ page.description|default|striptags|short }}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="{{ app.request.uri }}"/>
+    <meta property="og:image"
+          content="{{ page.image|default ? asset(page.image)|imagine_filter('product') : absolute_url(asset('bundles/postroykaapp/images/logo.png')) }}"/>
+
+    <link rel="shortcut icon" href="{{ asset('bundles/postroykaapp/images/favs/favicon.ico') }}" type="image/x-icon"/>
+    <meta name="msapplication-config" content="{{ asset('bundles/postroykaapp/images/favs/browserconfig.xml') }}">
+
+    <link rel="apple-touch-icon" href="{{ asset('bundles/postroykaapp/images/favs/apple-icon-60x60.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76"
+          href="{{ asset('bundles/postroykaapp/images/favs/apple-icon-76x76.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120"
+          href="{{ asset('bundles/postroykaapp/images/favs/apple-icon-120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152"
+          href="{{ asset('bundles/postroykaapp/images/favs/apple-icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="192x192" href="{{ asset('bundles/postroykaapp/images/favs/apple-icon.png') }}">
+
+    <link rel="manifest" href="{{ asset('bundles/postroykaapp/images/favs/manifest.json') }}">
+
+    <link rel="icon" type="image/png" href="{{ asset('bundles/postroykaapp/images/favs/favicon-16x16.png') }}"
+          sizes="16x16">
+    <link rel="icon" type="image/png" href="{{ asset('bundles/postroykaapp/images/favs/favicon-32x32.png') }}"
+          sizes="32x32">
+    <link rel="icon" type="image/png" href="{{ asset('bundles/postroykaapp/images/favs/favicon-96x96.png') }}"
+          sizes="96x96">
+
+    {% if page.url|default == '/' %}
+        <link rel="canonical" href="{{ absolute_url('/') }}"/>
+        <meta name="robots" content="noyaca"/>
+    {% else %}
+        <link rel="canonical" href="{{ page.url|default ? link(page.url, true) : app.request.uri }}"/>
+    {% endif %}
+
+    {{ _options.value('submarine_front.head_end')|raw }}
+{% endblock %}
+
+
+{% block front_body %}
+    {{ _options.value('submarine_front.body_start')|raw }}
+    {% if body_class is defined %}
+        <div class="{{ body_class }}">
+    {% endif %}
+    <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1"
+         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <defs>
+            <symbol id="svg-star" viewBox="0 0 32 32">
+                <path d="M16 0l4.043 11.79h11.957l-9.6 7.157 4.549 13.053-10.949-8.21-10.947 8.21 4.547-13.053-9.6-7.157h11.958l4.042-11.79z"></path>
+            </symbol>
+        </defs>
+    </svg>
+
+    {# spinner ovelay  #}
+    <div class="c-popup spinner_overlay">
+        <div class="spinner"></div>
+    </div>
+
+    {# layer js conduct #}
+    <div class="c-overlay function_overlay"></div>
+
+    {# block popups #}
+    {% block popups %}
+        {# delivery map popup  #}
+        <div class="c-popup delivery-map_popup">
+            <div class="_ico-close"></div>
+
+            <div class="delivery-map_blk">
+                <div class="blk_headline">
+                    Наведите курсор на необходимый адрес и Вы увидите стоимость доставки (для удобства можно
+                    воспользоваться строкой поиска).
+                    <span>Кликнув по выбранной зоне, она подставится автоматически.</span>
+                </div>
+
+                <div class="blk_body">
+                    <div id="deliveryMap" data-zones="{{ map_zones }}"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="c-popup mobil-phones_popup">
+            <div class="_ico-close"></div>
+
+            <div class="_head-phone">
+                <ul class="list_clear">
+                    {#<li>#}
+                    {#<a class="_opr-viber" href="viber://chat?number=+375296499819">cap</a>#}
+                    {#<span class="_opr-velcom">cap</span>#}
+                    {#<span class="_opr-a1">cap</span>#}
+                    {#<a href="tel:+375296499819">+375 (29) 649-98-19</a>#}
+                    {#</li>#}
+                    <li>
+                        <a class="_opr-viber" href="viber://chat?number=%2B375293298038">cap</a>
+                        <span class="_opr-a1">cap</span><a href="tel:+375293298038">8 (029)
+                            329-80-38 </a>
+                    </li>
+                    <li>
+                        <a class="_opr-viber" href="viber://chat?number=%2B375296499819">cap</a>
+                        <span class="_opr-a1">cap</span><a href="tel:+375296499819">8 (029)
+                            649-98-19 </a>
+                    </li>
+                    <li>
+                        <span class="_opr-mts">cap</span><a href="tel:+375297713511"> 8 (029)
+                            771-35-11 </a>
+                    </li>
+                    <li>
+                        <span class="_opr-mts">cap</span><a href="tel:+375297670470"> 8 (029)
+                            767-04-70 </a>
+                    </li>
+                </ul>
+                <ul class="list_clear">
+                    {#<li>#}
+                    {#<span class="_opr-blank">cap</span>#}
+                    {#<span class="_opr-mts">cap</span>#}
+                    {#<a href="tel:+375297670470">+375 (29) 767-04-70</a>#}
+                    {#</li>#}
+                </ul>
+            </div>
+        </div>
+
+        {# temporary popup #}
+        {% if temp_popup|default and temp_popup.id %}
+            <div class="c-popup info__popup">
+                <div class="_ico-close"></div>
+
+                <div class="rediscount_blk">
+                    <div class="blk_headline">
+                        {{ temp_popup.title }}
+                    </div>
+
+                    <div class="blk_body">
+                        <p>
+                            <img src="{{ asset(temp_popup.image) }}" alt="">
+                        </p>
+
+                        {{ temp_popup.body|raw }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endblock %}
+
+
+    {# pop up overlay layer #}
+    <div class="c-overlay popup_overlay"></div>
+
+    <div class="main_wrapper {% block main_wrapper_class %}{% endblock %}">
+        {{ include('@PostroykaApp/_header.html.twig') }}
+        {{ include('@PostroykaApp/_main_menu.html.twig') }}
+
+        <div class="content_panel">
+            <div class="_container">
+                <div class="_layout {% block layout_class %}_blk{% endblock %}">
+                    <div class="_sidebar">
+                        {{ include('@PostroykaApp/_left_menu.html.twig') }}
+                        {{ include('@PostroykaApp/_write_to_us.twig') }}
+                    </div>
+                       <div class="f-width" itemscope itemtype="http://schema.org/LocalBusiness">
+                           <div class="_content">
+                               {% block notices %}
+                                   {{ submarine_notifier_render() }}
+                               {% endblock notices %}
+
+                               {% block content_layout %}
+                                   <ul class="breadcrumbs_nav">
+                                       <li><a href="{{ path('home') }}">Главная</a></li>
+
+                                       {% block nav %}
+                                           {% for item in nav|default %}
+                                               <li><a href="{{ link(item.url) }}">{{ item.title }}</a></li>
+                                           {% endfor %}
+                                       {% endblock %}
+                                   </ul>
+
+                                   {% if nav|default %}
+                                       <div class="show859 pk-mobile-breadcrumbs">
+                                           {#<a href="{{ link(nav|last.url) }}">{{ nav|last.title }}</a>#}
+
+                                           <a href="{{ path('home') }}" class="mobile-breadcrumbs__main-link">Главная</a>
+                                           {% for item in nav|default %}
+                                               <a href="{{ link(item.url) }}">{{ item.title }}</a>
+                                           {% endfor %}
+                                       </div>
+                                   {% endif %}
+
+                                   {% block headline %}
+                                       <div class="page_headline {% if page.tag|default == 'stock' %}stock_page{% endif %} {% if page.tag|default == 'novelty' %}new_page{% endif %} {% if page.tag|default == 'sales-leader' %}bestSeller{% endif %}">
+                                           <h1 itemprop="name">{% block title %}{% endblock %}</h1>
+                                           <meta itemprop="openingHours" content="Mo-Su">
+                                           <meta itemprop="logo"
+                                                 content="https://www.postroyka.by/bundles/postroykaapp/images/logo_5.svg">
+                                           <meta itemprop="image"
+                                                 content="https://www.postroyka.by/bundles/postroykaapp/images/logo_5.svg">
+                                           <meta itemprop="url" content="{{ app.request.uri }}">
+                                           <meta itemprop="priceRange" content="МИНИМАЛЬНАЯ ЦЕНА - МАКСИМАЛЬНАЯ ЦЕНА руб.">
+                                           <div itemscope="" itemprop="address"
+                                                itemtype="https://schema.org/PostalAddress">
+                                               <meta itemprop="addressCountry" content="by">
+                                               <meta itemprop="addressLocality" content="Минск">
+                                           </div>
+
+                                       </div>
+                                   {% endblock %}
+
+                                   {% block content %}{% endblock %}
+                               {% endblock %}
+                           </div>
+                       </div>
+                </div>
+            </div>
+        </div>
+
+        {{ include('@PostroykaApp/_footer.html.twig') }}
+    </div>
+    {% if body_class is defined %}
+        </div>
+    {% endif %}
+{% endblock %}

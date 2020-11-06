@@ -1,0 +1,16 @@
+{% if page.images|length %}
+    <div class="gallery_blk">
+        <div class="_gallery">
+            <div class="_row">
+                {% for image in page.images %}
+                    <div class="col_">
+                        <a href="{{ asset(image.path)|imagine_filter('gallery_full') }}" class="fancybox" rel="gallery">
+                            <img src="{{ asset(image.path)|imagine_filter('gallery_thumb') }}" title="{{ image.title }}"
+                                 alt="{{ image.description }}">
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}

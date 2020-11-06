@@ -1,0 +1,11 @@
+ID	Item title	Final URL	Image URL	Price	Sale Price	Item subtitle
+{% for product in products %}
+    {%- if product.value('old_price') -%}
+		{%- set old_price = product.value('old_price')|replace({',': '.'}) -%}
+        {%- set old_price = old_price > product.price ? old_price : product.price -%}
+    {%- endif -%}
+    {%- if product.image -%}
+        {%- set image_url = link(product.image, true) -%}
+    {%- endif -%}
+{{ product.id }}	"{{ product.title }}"	{{ link(product.url, true) }}	{{ image_url|default }}	{{ old_price }} BYN	{{ product.price }} BYN	"{{ product.description|default }}"
+{% endfor %}

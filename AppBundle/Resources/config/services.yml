@@ -1,0 +1,69 @@
+services:
+    postroyka_app.catalog_provider:
+        class: Postroyka\AppBundle\Provider\CatalogProvider
+        parent: submarine.pages.pages_provider
+        public: true
+
+    postroyka_app.cart_provider:
+        class: Postroyka\AppBundle\Provider\CartProvider
+        calls:
+            - [setSession, ['@session']]
+            - [setExtendedUserProvider, ['@postroyka_account.extended_user_provider']]
+            - [setExtendedUserManager, ['@postroyka_account.extended_user_manager']]
+            - [setOptionsProvider, ['@core.options_cache']]
+            - [setPageProvider, ['@submarine.pages.pages_provider']]
+            - [setPriceService, ['@postroyka_app.price_service']]
+            - [setDiscountManger, ['@submarine_cart.discount_manager']]
+        public: true
+
+    postroyka_app.twig_extension:
+        class: Postroyka\AppBundle\Twig\CatalogExtension
+        arguments: ['@postroyka_app.price_service', '@security.token_storage', '@postroyka_account.extended_user_provider', '@translator']
+        tags:
+            - { name: twig.extension }
+        public: false
+
+    postroyka_app.price_service:
+        class: Postroyka\AppBundle\Service\PriceService
+        public: true
+
+    postroyka_app.orders_provider:
+        class: Postroyka\AppBundle\Provider\OrdersProvider
+        parent: submarine_orders.orders_provider
+        public: true
+
+    postroyka_app.order_calculator:
+        class: Postroyka\AppBundle\Service\OrderCalculator
+        arguments: ['@core.options_cache', '@postroyka_app.cart_provider']
+        public: true
+
+    postroyka_app.card_payment_service:
+        class: Postroyka\AppBundle\Service\CardPaymentService
+        arguments: ['@doctrine.orm.default_entity_manager', '@request_stack', '@router.default', '@translator.default', '%bepaid%' ]
+        public: true
+
+    postroyka_app.review_listener:
+        class: Postroyka\AppBundle\EventListener\ReviewListener
+        arguments: ['@submarine.reviews.provider', '@submarine.pages.pages_manager']
+        tags:
+            - { name: kernel.event_subscriber }
+        public: true
+
+    Postroyka\AppBundle\EventListener\PageSearchQueryListener:
+        arguments:
+            - '@submarine.pages.search_query_manager'
+            - '@core.log'
+        tags:
+            - {name: kernel.event_listener, event: submarine.pages.search_query_create, method: onSearchQueryCreate}
+
+
+    # ------------------ Controller --------------------
+    Postroyka\AppBundle\Controller\PagesController:
+        arguments:
+            - '@event_dispatcher'
+        public: true
+
+    Postroyka\AppBundle\Controller\OrderController:
+        arguments:
+            - '@event_dispatcher'
+        public: true

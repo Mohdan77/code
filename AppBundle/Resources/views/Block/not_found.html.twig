@@ -1,0 +1,16 @@
+<div class="wrapper-find_form" id="find-form">
+    <h3>Не нашли что искали?</h3>
+
+    <form name="not_found_form" id="not_found_form" method="post" action="#find-form">
+        <input type="text" id="not_found_form_name" class="validation autocomplete" name="find_text"
+               value="" placeholder="Сообщите нам об этом здесь, пожалуйста"
+               data-url="{{ path('js_api', {'action': 'search-catalog'}) }}"/>
+
+        <div class="form-msg"></div>
+
+        <div class="control-submit">
+            <button class="orange_btn" id="not_found_submit" type="submit">Отправить</button>
+        </div>
+    </form>
+
+</div>

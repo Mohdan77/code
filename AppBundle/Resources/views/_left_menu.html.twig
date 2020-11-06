@@ -1,0 +1,52 @@
+<div class="-shadow_default categories-nav_blk">
+    <ul class="vertical_nav categories_nav">
+        {% for group in left_menu %}
+            <li {% if group.group.id == nav[1]|default.id|default or group.group.id == page.id|default %}class="sel
+                    {% if (nav[1]|default and group.subgroups|default) or nav[2]|default %}sub-active{% endif %}
+                "{% endif %}>
+
+                <a href="{{ link(group.group.url) }}">{{ group.group.title }}</a>
+                <span class="_ico-arr-right"></span>
+
+                {% if group.subgroups|default %}
+                    <div class="subnav">
+                        <ul class="second-level">
+                            {% for subgroup in group.subgroups %}
+                                <li {% if subgroup.id == nav[2]|default.id|default
+                                        or subgroup.id == page.id|default %}class="sel{% if (nav[2]|default
+                                    and group.subgroups|default)
+                                    or nav[3]|default %}sub-active{% endif %}"{% endif %}>
+                                    <a  href="{{ link(subgroup.url) }}">{{ subgroup.title }}</a>
+                                    {% if group.subsubgroups[subgroup.id]|default %}
+                                       <span class="_ico-arr-right"></span> {% endif %}
+                                    {% if group.subsubgroups[subgroup.id]|default %}
+                                        <div class="subsubnav">
+                                            <ul class="third-level">{% for subsubgroup in group.subsubgroups[subgroup.id] %}
+                                                    <li {% if subsubgroup.id == nav[3]|default.id|default
+                                                            or subsubgroup.id == page.id|default %}class="sel"{% endif %}>
+                                                        <a href="{{ link(subsubgroup.url) }}">{{ subsubgroup.title }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="button">
+        <a href="{{ path('price') }}" target="_blank" class="_btn"><span class="_ico-clipboard"></span>Прайс-лист</a>
+    </div>
+</div>
+
+
+{#{% if group.subsubgroups[subgroup.id]|default %}
+  {% for subsubgroup in group.subsubgroups[subgroup.id] %}
+    {{ subsubgroup.title }}
+  {% endfor %}
+{% endif %}#}

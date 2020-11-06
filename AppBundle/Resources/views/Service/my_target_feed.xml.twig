@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<torg_price date="{{ 'now'|date('Y-m-d H:i') }}">
+    <shop>
+        <name>Постройка.бел</name>
+        <company>ООО «Строительный Берег»</company>
+        <url>https://www.postroyka.by</url>
+        <currencies>
+            <currency id="BYN"/>
+        </currencies>
+        <categories>
+            {% for category in categories %}
+                <category id="{{ category.id }}"
+                          {% if category.parents|first.parent.id != root.id %}parentId="{{ category.parents|first.parent.id }}"{% endif %}
+                >{{ category.title }}</category>
+            {% endfor %}
+        </categories>
+        <offers>
+            {% for product in products %}
+                <offer id="{{ product.id }}" available="{{ product.available ? 'true' : 'false' }}">
+                    <url>{{ link(product.url, true) }}</url>
+                    <price>{{ product.price }}</price>
+                    {% if product.value('old_price') %}
+                        {% set old_price = product.value('old_price')|replace({',': '.'}) %}
+                        {% if old_price > product.price %}
+                            <oldprice>{{ old_price }}</oldprice>
+                        {% endif %}
+                    {% endif %}
+                    <currencyId>BYN</currencyId>
+                    <categoryId>{{ product.parents|first.parent.id }}</categoryId>
+                    {% if product.image %}
+                        <picture>{{ link(product.image, true) }}</picture>
+                    {% endif %}
+                    <name>{{ product.title }}</name>
+                    {% if product.description %}
+                        <description>{{ product.description }}</description>
+                    {% endif %}
+                </offer>
+            {% endfor %}
+        </offers>
+    </shop>
+</torg_price>

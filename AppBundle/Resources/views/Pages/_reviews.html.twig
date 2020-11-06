@@ -1,0 +1,109 @@
+<div class="review-form_blk" id="jsReviewForm">
+    <div class="blk_headline">Написать отзыв</div>
+
+    <div class="blk_body">
+        {{ form_start(form) }}
+
+        {{ form_row(form.username) }}
+
+        <div class="control-row f-rating-control">
+            <div class="control-label">
+                <label class="required">Оценка</label>
+                <span class="control-required">*</span>
+            </div>
+
+            <div class="control-widget">
+                <div class="control js-rating-control">
+                    <div class="_star" data-rating="5" title="Оценка:5">
+                        <svg class="svg-ico svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                    </div>
+
+                    <div class="_star" data-rating="4" title="Оценка:4">
+                        <svg class="svg-ico svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                    </div>
+
+                    <div class="_star" data-rating="3" title="Оценка:3">
+                        <svg class="svg-ico svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                    </div>
+
+                    <div class="_star" data-rating="2" title="Оценка:2">
+                        <svg class="svg-ico svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                    </div>
+
+                    <div class="_star" data-rating="1" title="Оценка:1">
+                        <svg class="svg-ico svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                    </div>
+
+                    <input type="hidden" class="rating-hidden" value="0" id="review_form_rating"
+                           name="review_form[rating]">
+                </div>
+            </div>
+        </div>
+
+        {{ form_row(form.comment) }}
+
+        {% do form.rating.setRendered %}
+
+        <div class="control-submit">
+            <button class="orange_btn">Отправить</button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</div>
+
+
+{% if reviews|length %}
+    <div class="reviews_blk">
+        <div class="blk_headline">Отзывы</div>
+
+        {% for review in reviews %}
+            <div class="item" itemprop="review" itemscope itemtype="http://schema.org/Review">
+                <div class="head">
+                    <span class="_author" itemprop="author">{{ review.username }}</span>,
+                    <span class="_date">
+                        <meta itemprop="datePublished"
+                              content="{{ review.createdAt|date('Y-m-d') }}">{{ review.createdAt|date_local }}
+                    </span>
+                </div>
+
+                <div class="body">
+                    <div class="_elem">
+                        <div itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+                            <meta itemprop="worstRating" content="1">
+                            <meta itemprop="bestRating" content="5">
+
+                            <div class="c-rating-preview" data-value="{{ review.rating }}">
+                                <div class="_stars">
+                                    <div class="_active"></div>
+                                </div>
+
+                                <div class="_num">
+                                    Оценка: <span itemprop="ratingValue">{{ review.rating }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="_elem">
+                        <div class="text" itemprop="reviewBody">{{ review.comment }}</div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="_blk">
+        {{ knp_pagination_render(reviews, paginatorTemplate) }}
+    </div>
+{% endif %}

@@ -1,0 +1,265 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% block headline %}{% endblock %}
+
+{% form_theme form 'PostroykaAppBundle:theme:order_form.html.twig' %}
+
+
+{% block content %}
+    <div class="checkout_section" data-total-price="{{ cart.total }}" data-url="{{ path('js_api', {'action': 'keep-form-data'}) }}">
+        {{ form_start(form) }}
+
+        <div class="checkout-setting_blk">
+
+            <div class="element delivery" id="checkout_delivery">
+                <div class="change">
+                    {{ form_row(form.purchase) }}
+                </div>
+
+                <div class="summary">
+                    <div>Экспресс-доставка осуществляется в течении 3-ёх часов с момента оформления заказа, если заказ
+                        оформлен в рабочее время не позднее 13:00. Распространяется на зоны доставки с 1 по 8.
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="_row">
+                        <div class="col_12">
+                            <div class="date-row">
+                                <div class="control-row day-widget">
+                                    <div class="control-label">
+                                        {{ form_label(form.date) }}
+                                    </div>
+
+                                    <div class="control-widget">
+                                        {{ form_widget(form.date) }}
+                                        {{ form_errors(form.date) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="wrapper-address">
+
+                                <div class="wrapper-delivery_info">
+                                    {{ form_row(form.address) }}
+                                    <span id="infoDeliveryZone"></span>
+                                </div>
+                                <a href="#" class="link openDeliveryMap" style="display: none">Узнайте Вашу зону</a>
+                            </div>
+
+                            <div class="control-row zone-row">
+                                <div class="control-label">
+                                    {{ form_label(form.delivery) }}
+                                    <span class="control-required">*</span>
+                                </div>
+
+                                <div class="control-widget">
+                                    {{ form_widget(form.delivery) }}
+                                    {{ form_errors(form.delivery) }}
+                                    <a href="#" class="link openDeliveryMap">Узнайте Вашу зону</a>
+                                </div>
+                            </div>
+
+                            {% if total_weight > 2100 %}
+                                <p><span style="color: red">*</span> При превышении массы 2100 кг, стоимость доставки
+                                    будет рассчитываться менеджером индивидуально.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="element unloading" data-url="{{ path('js_api', {'action': 'calculate-unloading'}) }}"
+                 id="checkout_unloading" data-limit="{{ unloading_limit }}">
+                <div class="change">
+                    {{ form_row(form.unloading, {'required': false}) }}
+                    <div class="delivery_price" style="display: none">
+                        <div class="price">
+                            <span class="title">Разгрузка:&nbsp;</span>
+                            <span class="content uploadingText"> руб.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="_row" style="align-items: center">
+                        <div class="col_12 col_flor">
+                            <div class="control-row floor-row">
+                                <div class="control-widget">
+                                    <div class="input-floor">
+                                        <span class="control-label floor-label">
+                                            {{ form_widget(form.floor) }}
+                                        </span>
+                                        {{ form_label(form.floor) }}
+                                        {{ form_errors(form.floor) }}
+                                    </div>
+
+                                    <div class="checkbox">
+                                        {{ form_widget(form.elevator) }}
+                                        {{ form_label(form.elevator) }}
+                                        {{ form_errors(form.elevator) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col_12 col_extra" style="display: none">
+                            <div class="control-row extraFloor-wrapper">
+                                <div class="control-label" style="width: 0; margin: 0">
+                                    <label></label>
+                                </div>
+
+                                <div class=" control-widget" style="padding-top: 2px">
+                                    <div class="checkbox">
+                                        {{ form_widget(form.extraFloor) }}
+                                        {{ form_label(form.extraFloor) }}
+
+                                        <a class="_ico-question" data-toolip="Дополнительный этаж считается  в случае:<br><br>
+                                            <p>1. Если нумерация этажей начинается со второго этажа, либо разгрузка производится в подвал;</p>
+                                            <p>2. Если от входа в подъезд до лифта более 30 метров;</p>
+                                            <p>3. Если машина не может подъехать ближе, чем на 30 метров к месту разгрузки.</p>">
+                                            <img src="{{ absolute_url(asset('bundles/postroykaapp/images/question.svg')) }}">
+                                        </a>
+                                        {{ form_errors(form.extraFloor) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="checkout-address_blk">
+            <div class="blk_body">
+                {{ form_row(form.phone) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.comment) }}
+            </div>
+        </div>
+
+
+        <div class="checkout-report_blk">
+            <div class="_row">
+                <div class="col_12">
+                    <div class="elem">
+                        <div class="_total">
+                            {% if total_weight %}
+                                <div class="item">
+                                    <div class="title">Масса заказа:</div>
+                                    <div class="content-thin">
+                                        {% if total_weight|round(0, 'floor') == total_weight %}
+                                            {{ total_weight|number }} кг.
+                                        {% else %}
+                                            {{ total_weight|number_format(1, ',', ' ') }} кг.
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {% if cart.totalDiscount %}
+                                <div class="item">
+                                    <div class="title">Ваша скидка:</div>
+                                    <div class="content">{{ cart.totalDiscount|number(true) }} руб.
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <div class="item">
+                                <div class="title">Стоимость заказа:</div>
+                                <div class="content">{{ cart.total|number(true) }} руб.</div>
+                            </div>
+
+                            <div class="item">
+                                <div class="title">Доставка:</div>
+                                <div class="content deliveryText">0 руб.</div>
+                            </div>
+
+                            <div class="item">
+                                <div class="title">Разгрузка:</div>
+                                <div class="content uploadingText">0 руб.</div>
+                            </div>
+
+                            <div class="item">
+                                <div class="title">Итого:</div>
+                                <div class="content totalPriceText">{{ cart.total|number(true) }} руб.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nodisplay">
+            {{ form_row(form.card_payment) }}
+        </div>
+        <div class="control-submit">
+            <button class="orange_btn" id="submit_btn">Подтвердить заказ</button>
+            <div class="text">После подтверждения заказа его копия придёт на указанный Вами e-mail.</div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+
+{% block gtm_header %}
+    {{ parent() }}
+
+    {# GTM: Выбор способа покупки #}
+    <script>
+        var products = [
+            {% for product in cart.items %}
+            {
+                'name': '{{ product.title }}',
+                'id': '{{ product.entityId }}',
+                'price': '{{ product.unitPrice }}',
+                'quantity': {{ product.quantity }}
+            },
+            {% endfor %}
+        ];
+
+        window.dataLayer = window.dataLayer || [];
+        dataLayer.push({
+            'ecommerce': {
+                'currencyCode': 'USD',
+                'checkout': {
+                    'actionField': {'step': 2},
+                    'products': products
+                }
+            },
+            'event': 'gtm-ee-event',
+            'gtm-ee-event-category': 'Enhanced Ecommerce',
+            'gtm-ee-event-action': 'Checkout Step 2',
+            'gtm-ee-event-non-interaction': 'False'
+        });
+    </script>
+{% endblock %}
+
+
+{% block gtm_footer %}
+    {{ parent() }}
+
+    {# GTM: Ввод контактных данных #}
+    <script>
+        document.querySelector('#checkout_delivery').addEventListener('change', function () {
+            window.dataLayer = window.dataLayer || [];
+            dataLayer.push({
+                'ecommerce': {
+                    'currencyCode': 'USD',
+                    'checkout': {
+                        'actionField': {'step': 3},
+                        'products': products
+                    }
+                },
+                'event': 'gtm-ee-event',
+                'gtm-ee-event-category': 'Enhanced Ecommerce',
+                'gtm-ee-event-action': 'Checkout Step 3',
+                'gtm-ee-event-non-interaction': 'False'
+            });
+        });
+    </script>
+{% endblock %}

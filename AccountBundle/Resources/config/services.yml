@@ -1,0 +1,70 @@
+services:
+    postroyka_account.registration_service:
+        class: Postroyka\AccountBundle\Service\RegistrationService
+        calls:
+            - [setUserService, ['@submarine.users']]
+            - [setEntityManager, ['@doctrine.orm.entity_manager']]
+            - [setNotifier, ['@core.notifier']]
+        public: true
+
+    postroyka_account.registration_success_listener:
+        class: Postroyka\AccountBundle\EventListener\AccountRegistrationConfirmListener
+        calls:
+            - [setDispatcher, ['@event_dispatcher']]
+            - [setEntityManager, ['@doctrine.orm.entity_manager']]
+            - [setUsersService, ['@submarine.users']]
+            - [setTokenStorage, ['@security.token_storage']]
+            - [setSession, ['@session']]
+        tags:
+            - {name: kernel.event_listener, event: account.registration_confirmed, method: onAccountRegistrationConfirm}
+        public: true
+
+    postroyka_account.change_email_listener:
+        class: Postroyka\AccountBundle\EventListener\AccountChangeEmailListener
+        calls:
+            - [setEntityManager, ['@doctrine.orm.entity_manager']]
+            - [setUsersService, ['@submarine.users']]
+            - [setExtendedUserProvider, ['@postroyka_account.extended_user_provider']]
+        tags:
+            - {name: kernel.event_listener, event: account.changed_email, method: onAccountChangeEmail}
+        public: true
+
+    postroyka_account.restore_password_listener:
+        class: Postroyka\AccountBundle\EventListener\RestorePasswordListener
+        calls:
+            - [setEntityManager, ['@doctrine.orm.entity_manager']]
+            - [setEncoderFactory, ['@security.encoder_factory']]
+            - [setTokenStorage, ['@security.token_storage']]
+            - [setSession, ['@session']]
+        tags:
+            - {name: kernel.event_listener, event: account.restore_password, method: onAccountRestorePassword}
+        public: true
+
+    postroyka_account.cart_listener:
+        class: Postroyka\AccountBundle\EventListener\CartListener
+        arguments: ['@postroyka_app.cart_provider', '@postroyka_account.extended_user_provider']
+        tags:
+            - {name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin}
+        public: true
+
+    postroyka_account.account_mailer:
+        class: Postroyka\AccountBundle\Mailer\AccountMailer
+        calls:
+            - [setMailer, ['@submarine.mailer.provider']]
+            - [setOptions, ['@core.options_cache']]
+        public: true
+
+    postroyka_account.user_provider:
+        class: Postroyka\AccountBundle\Provider\UserProvider
+        arguments: ['@doctrine.orm.entity_manager']
+        public: true
+
+    postroyka_account.extended_user_provider:
+        class: Postroyka\AccountBundle\Provider\ExtendedUserProvider
+        parent: abstract.provider
+        public: true
+
+    postroyka_account.extended_user_manager:
+        class: Postroyka\AccountBundle\Manager\ExtendedUserManager
+        parent: abstract.manager
+        public: true

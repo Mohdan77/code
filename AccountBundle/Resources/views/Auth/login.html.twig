@@ -1,0 +1,34 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% block title %}
+    Вход на сайт
+{% endblock %}
+
+{% block content %}
+    {% if showBlockConfirm %}
+        {{ include('@PostroykaAccount/Auth/_block_confirm.html.twig', {'email': lastEmail}) }}
+    {% endif %}
+
+    <p>
+        <a href="{{ path('restore_password') }}">Забыли пароль?</a>
+    </p>
+
+    <div class="auth_blk">
+        {{ form_start(form, {'action': path('login_check')}) }}
+
+        <div class="blk_body">
+            <div class="_form-fields-wrap">
+                {{ form_widget(form) }}
+            </div>
+        </div>
+
+        <div class="blk_foot">
+            <div class="control-submit">
+                <button type="submit" class="orange_btn">Войти</button>
+                <a href="{{ path('registration') }}" class="orange_btn">Регистрация</a>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

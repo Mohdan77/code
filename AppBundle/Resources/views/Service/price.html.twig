@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Language" content="ru"/>
+    <title>Оптовый склад - магазин postroyka.by</title>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=latin,cyrillic" rel="stylesheet"
+          type="text/css">
+
+    <style>
+        body {
+            font: 400 0.875em/1.4 'PT Sans', sans-serif;
+            padding: 0 24px;
+        }
+
+        h1 {
+            text-align: center;
+            line-height: 1;
+        }
+
+        .pdf_info {
+            margin: 24px 0;
+            line-height: 1;
+            font-weight: 700
+        }
+
+        .pdf_info p {
+            margin: 0;
+        }
+
+        .pdf_info p + p {
+            margin-top: 12px;
+        }
+
+        a {
+            color: #f66625
+        }
+
+        a:hover {
+            color: #ff1a00;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table a {
+            color: #000;
+            text-decoration: none;
+        }
+
+        table a:hover {
+            color: #f66625;
+            text-decoration: underline;
+        }
+
+        table, th, td {
+            border: 1px solid #B2B6B8;
+        }
+
+        th, td {
+            padding: 4px 8px;
+        }
+
+        td {
+            text-align: center
+        }
+
+        td:nth-child(2) {
+            text-align: left;
+        }
+
+        tbody tr:nth-child(2n-1) {
+            background: #f3f3ef;
+        }
+
+        .section-head {
+            background: #dff0f7;
+            font-weight: 700;
+        }
+
+        @media print {
+            table {
+                font-size: 8pt;
+            }
+
+            td:nth-child(3),
+            th:nth-child(3) {
+                width: 120px;
+            }
+
+            td:nth-child(4),
+            th:nth-child(4),
+            td:nth-child(5),
+            th:nth-child(5) {
+                width: 70px;
+            }
+
+            body {
+                padding: 0 !important;
+            }
+
+            th, td {
+                padding: 2px 5px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+<h1>Оптовый склад-магазин Постройка.бел</h1>
+
+<div class="pdf_info">
+    <p>г. Минск, ул. Уручская, 12а</p>
+    <p>Velcom: 6-940-640; МТС: 7-670-470</p>
+    <p>Сайт: <a href="{{ url('home') }}">Постройка.бел</a></p>
+    <p>Прайс от {{ date()|datetime_local }}.</p>
+</div>
+
+
+<table>
+    <tbody>
+    <tr>
+        <th>№</th>
+        <th>Наименование товара</th>
+        <th width="28%">Цены сайта</th>
+    </tr>
+
+    {% set num = 0 %}
+    {% for item in price %}
+        <tr>
+            <td colspan="3" class="section-head">{{ item.group.title }}</td>
+        </tr>
+
+        {% for product in item.products %}
+            {% set num = num + 1 %}
+            <tr>
+                <td>{{ num }}</td>
+                <td><a href="{{ link(product.url) }}">{{ product.title }}</a></td>
+
+                <td>
+                    {{ product.price|number(true) }}
+                    {% if product.value('wholesale_quantity') and product.value('wholesale_discount') %}
+                        от {{ product.value('wholesale_quantity') }} шт
+                        {{ (product.price - (product.price * product.value('wholesale_discount') / 100))|round(2)|number(true) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

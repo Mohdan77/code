@@ -1,0 +1,101 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+{% block title %}
+    {{ page.title }}
+{% endblock %}
+{% block content %}
+    <p class="easy-search">Для упрощения поиска товаров предлагаем
+        воспользоваться расширенным поиском</p>
+    <div class="search_blk {% if products|length == 0 %}search-empty{% endif %}">
+        <form action="{{ path('search') }}" method="get">
+            <div class="_form-fields-wrap">
+                <div class="_row">
+                    <div class="left-part">
+                        <div class="col_full">
+                            <div class="filter-flex">
+                                <input id="product-title" type="text"
+                                       name="search"
+                                       class="autocomplete"
+                                       placeholder="Поиск по каталогу"
+                                       value="{{ search }}"/>
+                                <label for="product-title">Наименование</label>
+                            </div>
+                            <div class="filter-flex">
+                                <select id="product-category" name="group">
+                                    <option selected
+                                            class="default-value"
+                                            value="">Выберите
+                                        категорию, в которой вы ищете
+                                        товар
+                                    </option>
+                                    {% for item in subgroups %}
+                                        <option value="{{ item.id }}" {% if request_fields.group|default == item.id %} selected {% endif %}>{{ item.title }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="product-category">Категория</label>
+                            </div>
+                            <div class="filter-flex">
+                                <select id="product-brand" name="brand">
+                                    <option selected
+                                            class="default-value" value="" >Выберите
+                                        бренд
+                                    </option>
+                                    {% for item in brands %}
+                                        <option value="{{ item.id }}" {% if request_fields.brand|default == item.id %} selected {% endif %}>{{ item.title }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="product-brand">Бренд</label>
+                            </div>
+                            <div class="some-filters">
+                                <span class="sf-title">Характеристики</span>
+                                <input type="checkbox" id="sale" name="stock" value="1" {% if request_fields.stock|default %} checked {% endif %}>
+                                <label for="sale">Акция</label>
+                                <input type="checkbox" id="new" name="novelty" value="1" {% if request_fields.novelty|default %} checked {% endif %}>
+                                <label for="new">Новинка</label>
+                                <input type="checkbox" id="bestseller" name="sales_leader" value="1" {% if request_fields.sales_leader|default %} checked {% endif %}>
+                                <label for="bestseller">Лидер
+                                    продаж</label>
+                            </div>
+                        </div>
+                        <div class="col_">
+                            <button type="submit" class="orange_btn">
+                                Найти
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="right-part">
+            <div class="col_">
+                <a href="#" class="price_sort">
+                    <span class="text">По цене</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="products_blk">
+        <div class="_catalog {% if 'list' != view %}mini_catalog{% endif %}">
+            <div class="_row">
+                {% for product in products %}
+                    {{ include('@PostroykaApp/Pages/_product_item.html.twig', {'list': 'Поиск товара', 'position': loop.index}) }}
+                {% else %}
+                    <div class="col_">
+                        <div class="confirm_blk">
+                            <span class="_ico-warning"></span>
+                            К сожалению, у нас такого товара нет, либо
+                            название введено с орфографическими ошибками.
+                            Но мы учтем Ваше пожелание. Спасибо большое!
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if products|length != 0 %}
+                {{ include('@PostroykaApp/Block/not_found.html.twig') }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{% block gtm_header %}
+    {{ parent() }}
+    {{ include('@PostroykaApp/_gtm_impressions.html.twig', {'products': products, 'list': 'Поиск товара'}) }}
+{% endblock %}

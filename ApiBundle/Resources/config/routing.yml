@@ -1,0 +1,79 @@
+# API
+postroyka_api_export_users:
+    path:     /api/{secret}/export_users
+    defaults: { _controller: PostroykaApiBundle:Api:exportUsers }
+    methods:  [GET]
+    requirements:
+        secret: '%secret%'
+
+postroyka_api_export_groups:
+    path:     /api/{secret}/export_groups
+    defaults: { _controller: PostroykaApiBundle:Api:exportGroups }
+    methods:  [GET]
+    requirements:
+        secret: '%secret%'
+
+postroyka_api_export_products:
+    path:     /api/{secret}/export_products
+    defaults: { _controller: PostroykaApiBundle:Api:exportProducts }
+    methods:  [GET]
+    requirements:
+        secret: '%secret%'
+
+postroyka_api_export_orders:
+    path:     /api/{secret}/export_orders
+    defaults: { _controller: PostroykaApiBundle:Api:exportOrders }
+    methods:  [GET]
+    requirements:
+        secret: '%secret%'
+
+postroyka_api_import_price:
+    path:     /api/{secret}/import_price
+    defaults: { _controller: PostroykaApiBundle:Api:importPrice }
+    methods:  [POST]
+    requirements:
+        secret: '%secret%'
+
+postroyka_api_export_all_products:
+    path:     /api/{secret}/export_all_products
+    defaults: { _controller: PostroykaApiBundle:Api:exportAllProducts }
+    methods:  [GET]
+    requirements:
+        secret: '%secret%'
+
+postroyka_api_export_product:
+    path:     /api/{secret}/export_product
+    defaults: { _controller: PostroykaApiBundle:Api:exportProduct }
+    methods:  [GET]
+    requirements:
+        secret: '%secret%'
+
+postroyka_api_export_options:
+    path:     /api/{secret}/export_options
+    defaults: { _controller: PostroykaApiBundle:Api:exportOptions }
+    methods:  [GET]
+    requirements:
+        secret: '%secret%'
+
+postroyka_api_export_categories:
+    path:     /api/{secret}/export_categories
+    defaults: { _controller: PostroykaApiBundle:Api:exportCategories }
+    methods:  [GET]
+    requirements:
+        secret: '%secret%'
+
+postroyka_api_calculate_unloading:
+    path:     /api/{secret}/calculate_unloading
+    defaults: { _controller: PostroykaApiBundle:Api:calculateUnloading }
+    methods:  [POST]
+    requirements:
+        secret: '%secret%'
+
+# Service
+postroyka_service_yandex_cart:
+    path: /yandex_cart/{id}
+    defaults: { _controller: PostroykaApiBundle:Service:yandexCart }
+
+postroyka_service_onliner:
+    path: /onliner
+    defaults: { _controller: PostroykaApiBundle:Service:onliner }

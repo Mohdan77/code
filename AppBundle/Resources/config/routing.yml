@@ -1,0 +1,171 @@
+home:
+    path: /
+    defaults: { _controller: PostroykaAppBundle:Home:home }
+
+act:
+    path: /act
+    defaults: { _controller: PostroykaAppBundle:Home:act }
+
+catalog:
+    path: /catalog/
+    defaults: { _controller: PostroykaAppBundle:Pages:loadTag, tag: catalog }
+
+payment:
+    path: /dostavka/
+    defaults: { _controller: PostroykaAppBundle:Pages:loadTag, tag: payment }
+
+stock:
+    path: /stock/
+    defaults: { _controller: PostroykaAppBundle:Pages:loadTag, tag: stock }
+
+sales-leader:
+    path: /sales-leader/
+    defaults: {_controller: PostroykaAppBundle:Pages:loadTag, tag: sales-leader }
+
+novelty:
+    path: /novelty/
+    defaults: { _controller: PostroykaAppBundle:Pages:loadTag, tag: novelty }
+
+video:
+    path: /video/
+    defaults: { _controller: PostroykaAppBundle:Pages:loadTag, tag: video }
+
+about:
+    path: /about/
+    defaults: { _controller: PostroykaAppBundle:Pages:loadTag, tag: about }
+
+articles:
+    path: /articles/
+    defaults: { _controller: PostroykaAppBundle:Pages:loadTag, tag: articles }
+
+contacts:
+    path: /contacts/
+    defaults: { _controller: PostroykaAppBundle:Pages:loadTag, tag: contacts }
+
+feedback_success:
+    path: /feedback_success/
+    defaults: { _controller: PostroykaAppBundle:Pages:feedbackSuccess }
+
+director:
+    path: /director/
+    defaults: { _controller: PostroykaAppBundle:Pages:loadTag, tag: director }
+
+proposition:
+    path: /proposition/
+    defaults: { _controller: PostroykaAppBundle:Pages:loadTag, tag: proposition }
+
+director_success:
+    path: /director_success/
+    defaults: { _controller: PostroykaAppBundle:Pages:directorSuccess }
+
+vacancy:
+    path: /vacancy/
+    defaults: { _controller: PostroykaAppBundle:Pages:loadTag, tag: vacancy }
+
+vacancy_success:
+    path: /vacancy_success/
+    defaults: { _controller: PostroykaAppBundle:Pages:vacancySuccess }
+
+search:
+    path: /search/
+    defaults: { _controller: PostroykaAppBundle:Pages:loadTag, tag: search }
+
+charity:
+    path: /charity/
+    defaults: { _controller: PostroykaAppBundle:Pages:loadTag, tag: charity }
+
+brands:
+    path: /brands/
+    defaults: { _controller: PostroykaAppBundle:Pages:loadTag, tag: brands }
+
+
+# Корзина
+cart:
+    path: /cart
+    defaults: { _controller: PostroykaAppBundle:Cart:cart }
+
+cart_add:
+    path: /cart/add/{id}
+    defaults: { _controller: PostroykaAppBundle:Cart:add }
+
+cart_remove:
+    path: /cart/remove/{key}
+    defaults: { _controller: PostroykaAppBundle:Cart:remove }
+
+cart_clear:
+    path: /cart/clear
+    defaults: { _controller: PostroykaAppBundle:Cart:clear }
+
+
+# Заказы
+order:
+    path: /order
+    defaults: { _controller: PostroykaAppBundle:Order:order }
+
+order_success:
+    path: /order/success
+    defaults: { _controller: PostroykaAppBundle:Order:success }
+
+order_card_payment_success:
+    path: /order/card_payment/{orderId}
+    defaults: { _controller: PostroykaAppBundle:Order:cardPaymentSuccess }
+
+order_print:
+    path: /order/print
+    defaults: { _controller: PostroykaAppBundle:Order:print }
+
+order_bepaid_handle:
+    path: /order/bepaid/handle
+    defaults: { _controller: PostroykaAppBundle:Order:bepaidHandle }
+
+
+# API
+js_api:
+    path: /js-api/{action}
+    defaults: { _controller: PostroykaAppBundle:Api:api }
+
+not_found_action:
+    path: /api/not_found_action
+    defaults: { _controller: PostroykaAppBundle:Api:notFound }
+
+api_print_order:
+    path: /api/order/print/{orderId}/{orderUuid}
+    defaults: { _controller: PostroykaAppBundle:Api:printOrder }
+
+
+# Цены в PDF
+price:
+    path: /price
+    defaults: { _controller: PostroykaAppBundle:Service:price }
+
+
+# Карта сайта
+sitemap:
+    path: /sitemap.xml
+    defaults: { _controller: PostroykaAppBundle:Service:sitemap }
+
+
+# Robots.txt
+robots:
+    path: /robots.txt
+    defaults: { _controller: PostroykaAppBundle:Service:robots }
+
+# Yandex Markup Language
+yml:
+    path: /yml.xml
+    defaults: { _controller: PostroykaAppBundle:Service:yml }
+
+# Google adaptive feed
+google_feed:
+    path: /google_feed.tsv
+    defaults: { _controller: PostroykaAppBundle:Service:googleFeed }
+
+# My Target feed
+my_target_feed:
+    path: /my_target_feed.xml
+    defaults: { _controller: PostroykaAppBundle:Service:myTargetFeed }
+
+# Facebook feed
+facebook_feed:
+    path: /facebook_feed.xml
+    defaults: { _controller: PostroykaAppBundle:Service:facebookFeed }

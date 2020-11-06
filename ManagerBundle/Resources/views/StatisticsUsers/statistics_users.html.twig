@@ -1,0 +1,82 @@
+{% extends 'PostroykaManagerBundle::layout.html.twig' %}
+
+{% block content %}
+    <h1>Статистика пользователей</h1>
+
+    <form method="post" action="/submarine/postroyka_manager/users/statistics" class="form-inline">
+            <select name="users_statistics_select" id="users_statistics_select" class="form-control">
+                <option value="">Не выбрано</option>
+                <option value="1" {% if users_statistics_select == 1 %} selected {% endif %}>Больше всего заказов</option>
+                <option value="2" {% if users_statistics_select == 2 %} selected {% endif %}>Заказал на наибольшую сумму</option>
+                <option value="3" {% if users_statistics_select == 3 %} selected {% endif %}>Самый высокий средний чек</option>
+                <option value="4" {% if users_statistics_select == 4 %} selected {% endif %}>Наибольшее количество единиц товаров</option>
+                <option value="5" {% if users_statistics_select == 5 %} selected {% endif %}>Новые пользователи (за посл. месяц)</option>
+                <option value="6" {% if users_statistics_select == 6 %} selected {% endif %}>Самые продаваемые товары</option>
+            </select>
+{#            <input type="date" class="form-control" name="start_date">#}
+{#            <input type="date" class="form-control" name="end_date">#}
+
+        <div class="block-actions">
+
+        <input type="submit" class="btn-main" value="Старт" style="height: 100%">
+        </div>
+
+
+    </form>
+
+
+    {% if product|default %}
+
+        <table>
+            <thead>
+            <tr>
+                <th>Название продукта</th>
+                <th>Количество купленных единиц</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for key, item in product %}
+                <tr class="no-active">
+                    <td>{{ key }}</td>
+                    <td>{{ item }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% endif %}
+
+    {% if users|default %}
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Имя</th>
+                    <th>E-mail</th>
+                    <th>Результат</th>
+                    {% if users.0.countUsers|default %}<th><p>Всего: {{ users.0.countUsers }}</p></th>{% endif %}
+
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in users %}
+                <tr class="no-active">
+                    <td>{{ item.username }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.result }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% endif %}
+
+{% endblock %}
+
+{% block blocks %}
+    <div class="block">
+        <a href="{{ path('postroyka_manager_users_create') }}"
+           class="btn btn-main btn-block">{{ 'postroyka_manager.users.create_user'|trans }}</a>
+    </div>
+{% endblock %}

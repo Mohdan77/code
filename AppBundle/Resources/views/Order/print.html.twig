@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Language" content="ru"/>
+    <title>Заказ на postroyka.by</title>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=latin,cyrillic" rel="stylesheet"
+          type="text/css">
+
+    <style>
+        body {
+            font: 400 0.875em/1.4 'PT Sans', sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            line-height: 1;
+            font-size: 17pt;
+        }
+
+        a {
+            color: #f66625
+        }
+
+        a:hover {
+            color: #ff1a00;
+        }
+
+        table {
+            border-collapse: collapse
+        }
+
+        table a {
+            color: #000;
+            text-decoration: none;
+        }
+
+        table a:hover{
+            color: #f66625;
+            text-decoration: underline;
+        }
+
+        table, th, td {
+            border: 1px solid #B2B6B8;
+        }
+
+        th, td {
+            padding: 4px 8px;
+        }
+
+        td {
+            text-align: center
+        }
+
+        td:nth-child(2) {
+            text-align: left;
+        }
+
+       tbody  tr:nth-child(2n-1) {
+            background: #f3f3ef;
+        }
+    </style>
+</head>
+
+
+<body>
+<h1>Заказ в магазине postroyka.by ({{ date()|datetime_local }})</h1>
+
+<div class="pdf_info">
+    <p>Для сохранения или печати заказа кликните на него правой кнопкой мыши и выберите нужное действие. </p>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>Название</th>
+        <th width="15%">Цена, руб</th>
+        <th width="13%">Количество</th>
+        <th width="13%">Сумма, руб</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for item in cart.items %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td><a href="{{ link(item.url) }}">{{ item.title }}</a></td>
+            <td>{{ (item.unitPrice - item.unitDiscount)|number(true) }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.total|number(true) }}</td>
+        </tr>
+    {% endfor %}
+
+    {% if total_weight %}
+        <tr>
+            <td colspan="2"></td>
+            <td><b>Масса заказа:</b></td>
+            <td colspan="2">
+                {% if total_weight|number == total_weight %}
+                    {{ total_weight|number }} кг.
+                {% else %}
+                    {{ total_weight|number_format(1, ',', ' ') }} кг.
+                {% endif %}
+            </td>
+        </tr>
+    {% endif %}
+
+    {% if cart.totalDiscount %}
+        <tr>
+            <td colspan="2"></td>
+            <td><b>Скидка:</b></td>
+            <td colspan="2">{{ cart.totalDiscount|number(true) }}</td>
+        </tr>
+    {% endif %}
+
+    <tr>
+        <td colspan="2"></td>
+        <td><b>Итого:</b></td>
+        <td colspan="2">{{ cart.total|number(true) }}</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

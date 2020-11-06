@@ -1,0 +1,86 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% block headline %}
+    {% set prices = products | map(product => product.price ) %}
+
+    <div class="page_headline">
+        <h1 itemprop="name">{% block title %}
+                {{ page.value('h1')|default(page.title) }}
+            {% endblock %}
+        </h1>
+        <meta itemprop="openingHours" content="Mo-Su">
+        <meta itemprop="logo" content="https://www.postroyka.by/bundles/postroykaapp/images/logo_5.svg">
+        <meta itemprop="image" content="https://www.postroyka.by/bundles/postroykaapp/images/logo_5.svg">
+        <meta itemprop="url" content="{{ app.request.uri }}">
+        <meta itemprop="priceRange" content="{{ min(prices) }} - {{ max(prices) }} руб.">
+
+        <div itemscope="" itemprop="address" itemtype="https://schema.org/PostalAddress">
+            <meta itemprop="addressCountry" content="by">
+            <meta itemprop="addressLocality" content="Минск">
+        </div>
+
+        <div class="btn-filter-catalog_blk orange_btn">Фильтр</div>
+    </div>
+    <div class="sub_headline"></div>
+{% endblock %}
+
+
+{% block content %}
+    {% if seo_groups %}
+        <div class="seo-catalog_blk">
+            <div class="blk_body">
+                {% for seo_group in seo_groups %}
+                    {% set continue = true %}
+
+                    {% if seo_group.url == '/gipsokarton/borovlyany/' %} {% set continue = false %} {% endif %}
+                    {% if seo_group.url == '/gipsokarton/gatovo/' %} {% set continue = false %} {% endif %}
+                    {% if seo_group.url == '/gipsokarton/kolodishhi/' %} {% set continue = false %} {% endif %}
+
+                    {% if continue %}
+                    <a href="{{ link(seo_group.url) }}" {% if seo_group.id == page.id %}class="_btn"{% endif %}>
+                        {{ seo_group.title }}
+                    </a>
+                    {% endif %}
+
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+
+    <div class="products_blk">
+        <div class="_catalog mini_catalog">
+            <div class="_row">
+                {% for product in products %}
+                    {{ include('@PostroykaApp/Pages/_product_item.html.twig', {'list': 'SEO-страница', 'position': loop.index}) }}
+                {% else %}
+                    <div class="col_">
+                        <div class="confirm_blk">
+                            <span class="_ico-warning"></span>
+                            Товары не найдены
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% if page.value('block_not_found') %}
+        {{ render(controller('PostroykaAppBundle:Block:notFound', {'request': app.request})) }}
+    {% endif %}
+
+
+    {% if page.body %}
+        <div class="_blk">
+            {{ page.body|raw }}
+        </div>
+    {% endif %}
+    {{ include('@PostroykaApp/Pages/_calc_result.html.twig') }}
+{% endblock %}
+
+
+{% block gtm_header %}
+    {{ parent() }}
+
+    {{ include('@PostroykaApp/_gtm_impressions.html.twig', {'products': products, 'list': 'SEO-страница'}) }}
+{% endblock %}

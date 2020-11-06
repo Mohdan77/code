@@ -1,0 +1,37 @@
+<tr {% if not user.user.isEnabled %} class="no-active" {% endif %}>
+    <td class="col-title">
+        <a class="title" href="{{ path('postroyka_manager_users_edit', {'id': user.id}) }}">{{ user.username }}</a>
+
+        <p>
+            {% for group in user.user.groups %}
+                {% if group.role in ['ROLE_ADMIN', 'ROLE_ADMIN_SUPER'] %}
+                    <span class="label label-success">
+                            {{ group.title }}
+                            </span>
+                {% elseif group.role == 'ROLE_DEV' %}
+                    <span class="label label-danger">
+                                {{ group.title }}
+                            </span>
+                {% else %}
+                    <span class="label label-primary">
+                                    {{ group.title }}
+                            </span>
+                {% endif %}
+            {% endfor %}
+
+        </p>
+    </td>
+
+    <td class="text-muted" style="width: 35%;">
+        <p>{{ user.user.email }}</p>
+
+        {% if user.discount %}
+            <p style="color: red">Скидка: {{ user.discount|default(0) }}%</p>
+        {% endif %}
+    </td>
+
+    <td class="col-action" style="width: 20px;">
+        <a href="{{ path('submarine_users_user_edit', {'id': user.id}) }}" class="control-icon"
+           title="{{ 'control.edit'|trans }}"><i class="glyphicon glyphicon-pencil"></i></a>
+    </td>
+</tr>

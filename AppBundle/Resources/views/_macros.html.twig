@@ -1,0 +1,11 @@
+{% macro pagination_meta(pagination) %}
+    {% if pagination.paginationData.previous is defined %}
+        <link rel="prev"
+              href="{{ absolute_url(path(pagination.route, pagination.query|merge({(pagination.paginatorOption('pageParameterName')): pagination.paginationData.previous}))) }}">
+    {% endif %}
+
+    {% if pagination.paginationData.next is defined %}
+        <link rel="next"
+              href="{{ absolute_url(path(pagination.route, pagination.query|merge({(pagination.paginatorOption('pageParameterName')): pagination.paginationData.next}))) }}">
+    {% endif %}
+{% endmacro %}

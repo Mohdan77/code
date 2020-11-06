@@ -1,0 +1,133 @@
+mail:
+    subject:
+        feedback: '[Postroyka.by] Обратная связь'
+        director: '[Postroyka.by] Письмо директору'
+        vacancy: '[Postroyka.by] Вакансии'
+        not_found: '[Postroyka.by] Не нашли что искали?'
+        proposition: '[Postroyka.by] Отзыв, предложение?'
+
+order:
+    purchase:
+        title: Способ покупки
+        pickup: Самовывоз
+        delivery: Доставка
+        express: Экспресс-доставка
+    address:
+        title: Адрес доставки
+    date:
+        title: День доставки
+    delivery:
+        title: Стоимость доставки
+        placeholder: Выберите зону
+        price: Сумма доставки
+    unloading:
+        title: Разгрузка
+        placeholder: Выберите вариант
+        price: Сумма разгрузки
+        none: Не требуется
+        car: Только из машины
+        room: Требуется
+    floor:
+        title: Этаж
+    extraFloor:
+        title: Доп. этаж
+    elevator:
+        title: Лифт
+    payment:
+        title: Способ оплаты
+        placeholder: Выберите способ
+        cash: Наличные
+        card: Картой на сайте
+    phone:
+        title: Телефон
+        placeholder: '+375 (__) ___-__-__'
+    email:
+        title: E-mail
+        placeholder: E-mail
+    comment:
+        title: Комментарий
+        placeholder: Например, можете указать желаемое время доставки
+    total_weight: Масса заказа
+    card_payment:
+        label: Оплатить картой на сайте. Перед тем как сделать платеж - обязательно согласуйте заказ с менеджером.
+
+feedback:
+    name:
+        title: Ваше имя
+        placeholder: Фамилия Имя Отчество
+    phone:
+        title: Контактный телефон
+        placeholder: '+375 (__) ___-__-__'
+    email:
+        title: E-mail
+        placeholder: 'example@example.com'
+    message:
+        title: Сообщение
+
+director:
+    name:
+        title: Ваше имя
+        placeholder: По желанию
+    phone:
+        title: Ваш телефон
+        placeholder: По желанию
+    email:
+        title: Ваш E-mail
+        placeholder: По желанию
+    message:
+        title: Сообщение
+    captcha:
+        title: Введите символы на картинке
+
+vacancy:
+    name:
+        title: Ваше имя
+        placeholder: Фамилия Имя Отчество
+    phone:
+        title: Ваш телефон
+        placeholder: +375(29) 123-45-67
+    job:
+        title: Какая вакансия Вас интересует
+        placeholder: Водитель
+    message:
+        title: Сообщение
+        placeholder: Напишите кратко о себе (свой возраст, опыт работы, прикрепите фото)
+
+review:
+    username:
+        title: Ваше имя
+        placeholder: Фамилия Имя Отчество
+    comment:
+        title: Отзыв
+        placeholder: Ваш отзыв
+    rating:
+        title: Рейтинг
+
+not_found:
+    name:
+        title: Товар или бренд
+        placeholder: Сообщите нам об этом здесь, пожалуйста
+
+postroyka_manager:
+        delivery_zone_1: Зона 1
+        delivery_zone_2: Зона 2
+        delivery_zone_3: Зона 3
+        delivery_zone_4: Зона 4
+        delivery_zone_5: Зона 5
+        delivery_zone_6: Зона 6
+        delivery_zone_7: Зона 7
+        delivery_zone_8: Зона 8
+        delivery_zone_9: Зона 9
+        delivery_zone_10: Зона 10
+        delivery_zone_11: Зона 11
+        delivery_zone_12: Зона 12
+        delivery_zone_13: Зона 13
+        delivery_zone_14: Зона 14
+        delivery_zone_15: Зона 15
+        delivery_zone_16: Зона 16
+        delivery_zone_17: Зона 17
+        delivery_zone_18: Зона 18
+
+boolean:
+    yes: Да
+    no: Нет

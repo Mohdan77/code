@@ -1,0 +1,18 @@
+services:
+  #    postroyka_api.example:
+  #        class: Postroyka\ApiBundle\Example
+  #        arguments: ["@service_id", "plain_value", %parameter%]
+
+  postroyka_api.api_provider:
+    class: Postroyka\ApiBundle\Provider\ApiProvider
+    arguments: ['@doctrine.orm.entity_manager']
+    public: true
+
+  # ------------------ Event --------------------
+  Postroyka\ApiBundle\EventListener\OrderListener:
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@postroyka_account.extended_user_provider'
+    tags:
+      - {name: kernel.event_listener, event: submarine.orders.order_create, method: onOrderCreate}
+

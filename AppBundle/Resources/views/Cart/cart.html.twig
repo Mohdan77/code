@@ -1,0 +1,216 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% block title %}
+    Корзина
+{% endblock %}
+
+{% block content %}
+    {% if cart.empty %}
+        <div class="cart-empty_section">
+            <div class="cart-empty_blk">
+                <h3>{{ page.title }}</h3>
+
+                <div class="_image">
+                    <img src="{{ asset('bundles/postroykaapp/images/empty-cart.png') }}" title="Пустая корзина"
+                         alt="Пустая корзина">
+                </div>
+
+                {{ page.body|raw }}
+
+                <a href="{{ path('catalog') }}" class="orange_btn">Добавить товары в корзину</a>
+            </div>
+
+            <div class="cart-top-products_blk">
+                <div class="blk_headline" style="text-align: center">Товары на акции</div>
+
+                <div class="blk_body">
+                    <div class="_catalog mini_catalog">
+                        <div class="_row">
+                            {% for product in stock %}
+                                {{ include('@PostroykaApp/Pages/_product_item.html.twig', {'list': 'Пустая корзина', 'position': loop.index}) }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+
+        <div class="cart_section">
+            <form name="cart" method="post">
+                <div class="cart-list_blk">
+                    <div class="c-cart__grid">
+                        <div class="grid__head">
+                            <div class="i-item">
+                                <div class="_col-image">Фото</div>
+                                <div class="_col-info">Название</div>
+                                <div class="_col-price">Цена</div>
+                                <div class="_col-num">Количество</div>
+                                <div class="_col-summ">Сумма</div>
+                                <div class="_col-del">Удалить</div>
+                            </div>
+                        </div>
+
+                        <div class="grid__body">
+                            {% for item in cart.items %}
+                                {{ include('@PostroykaApp/Cart/_cart_item.html.twig') }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cart-clear_blk">
+                    <a href="#" class="cart-clear__trg">Вернуть на полки</a>
+
+                    <div class="c-popup cart-clear__popup">
+                        <div class="_ico-close"></div>
+                        <div class="_title">
+                            Вы уверены, что хотите вернуть товар на полки?
+                        </div>
+
+                        <a href="{{ path('cart_clear') }}" class="_btn">Да, уверен</a>
+                    </div>
+                </div>
+
+                <div class="cart-total_blk">
+                    <div class="_row">
+                        <div class="col_">
+                            <input type="submit" name="submit_order" class="orange_btn" value="Оформить заказ"
+                                   onclick="yaCounter37953910.reachGoal('add_to_order'); return true;"/>
+                        </div>
+
+                        <div class="col_full">
+                            <div class="_total ">
+                                {% if total_weight %}
+                                    <div id="js-cart-warning">
+                                        {% if total_weight > 2100 %}
+                                            <p style="margin-bottom: 12px">
+                                                <span style="color: red">*</span> При превышении массы 2100 кг,
+                                                стоимость доставки<br>будет рассчитываться менеджером индивидуально.</p>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="item">
+                                        <div class="title">Масса заказа:</div>
+                                        <div class="content-thin" id="js-cart-weight">
+                                            {% if total_weight|round(0, 'floor') == total_weight %}
+                                                {{ total_weight|number }} кг.
+                                            {% else %}
+                                                {{ total_weight|number_format(1, ',', ' ') }} кг.
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+
+                                <div class="item" id="js-cart-discount">
+                                    {% if cart.totalDiscount %}
+                                        <div class="title">Ваша скидка:</div>
+                                        <div class="content">{{ cart.totalDiscount|number(true) }} руб.</div>
+                                    {% endif %}
+                                </div>
+
+
+                                <div class="item">
+                                    <div class="title">Итого:</div>
+                                    <div class="content" id="js-cart-total">{{ cart.total|number(true) }} руб.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+
+        <div class="cart-empty_section">
+            <h2 itemprop="name">Вам может понадобится</h2>
+            <div class="products_blk">
+                <div class="_catalog mini_catalog">
+                    <div class="_row">
+                        {% for product in mayneed_products %}
+                            {{ include('@PostroykaApp/Pages/_product_item.html.twig', {'list': 'Каталог', 'position': loop.index}) }}
+                        {% else %}
+                            <div class="col_">
+                                <div class="confirm_blk">
+                                    <span class="_ico-warning"></span>
+                                    Товары не найдены
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+{% endblock %}
+
+
+{% block gtm_header %}
+    {{ parent() }}
+
+    {# GTM: Переход в корзину #}
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        dataLayer.push({
+            'ecommerce': {
+                'currencyCode': 'USD',
+                'checkout': {
+                    'actionField': {'step': 1},
+                    'products': [
+                        {% for product in cart.items %}
+                        {
+                            'name': '{{ product.title }}',
+                            'id': '{{ product.entityId }}',
+                            'price': '{{ product.unitPrice }}',
+                            'quantity': {{ product.quantity }}
+                        },
+                        {% endfor %}
+                    ]
+                }
+            },
+            'event': 'gtm-ee-event',
+            'gtm-ee-event-category': 'Enhanced Ecommerce',
+            'gtm-ee-event-action': 'Checkout Step 1',
+            'gtm-ee-event-non-interaction': 'False'
+        });
+    </script>
+
+
+    {% if cart.empty %}
+        {{ include('@PostroykaApp/_gtm_impressions.html.twig', {'products': stock, 'list': 'Пустая корзина'}) }}
+    {% endif %}
+{% endblock %}
+
+
+{% block gtm_footer %}
+    {{ parent() }}
+
+    {# GTM: Удаление из корзины #}
+    <script>
+        function GTM_removeItemFromCart(product) {
+            var quantity = product.quantity ? document.querySelector('#' + product.quantity).value : 1;
+
+            window.dataLayer = window.dataLayer || [];
+            dataLayer.push({
+                'ecommerce': {
+                    'currencyCode': 'USD',
+                    'remove': {
+                        'products': [{
+                            'name': product.name,
+                            'id': product.id,
+                            'price': product.price,
+                            'quantity': quantity
+                        }]
+                    }
+                },
+                'event': 'gtm-ee-event',
+                'gtm-ee-event-category': 'Enhanced Ecommerce',
+                'gtm-ee-event-action': 'Removing a Product from a Shopping Cart',
+                'gtm-ee-event-non-interaction': 'False'
+            });
+        }
+    </script>
+{% endblock %}

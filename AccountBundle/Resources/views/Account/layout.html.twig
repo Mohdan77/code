@@ -1,0 +1,89 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% block layout_class %}{% endblock %}
+
+{% block nav %}
+    <li><a href="{{ path('account') }}">Личный кабинет</a></li>
+{% endblock %}
+
+
+{% block headline %}
+    <div class="page_headline">
+        <h1 itemprope="name">{% block title %}{% endblock %}</h1>
+        {% if extended_user.discountCard|default %}
+            <sup style="font-weight: 700; font-size: 16px; margin-left: 15px">{{ extended_user.discountCard.title }}</sup>
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    <div class="profile_section">
+        <div class="profile-menu_mobile show1024">
+            <div class="toggle" id="profile-menu_btn">Мой профиль</div>
+
+            <div class="menu" id="profile-menu_mobile">
+                <ul class="vertical_nav sidebar_nav">
+                    {% if is_granted('ROLE_ADMIN_BASE') %}
+                        <li><a href="{{ path('submarine_home') }}" target="_blank">Submarine</a></li>
+                    {% endif %}
+
+                    <li {% if right_menu == 'orders' %}class="sel"{% endif %}>
+                        <a href="{{ path('account_orders') }}">Мои заказы</a>
+                    </li>
+
+                    <li {% if right_menu == 'profile' %}class="sel"{% endif %}>
+                        <a href="{{ path('account_profile') }}">Мой профиль</a>
+                    </li>
+
+                    <li {% if right_menu == 'password' %}class="sel"{% endif %}>
+                        <a href="{{ path('account_password') }}">Изменить пароль</a>
+                    </li>
+
+                    <li {% if right_menu == 'email' %}class="sel"{% endif %}>
+                        <a href="{{ path('account_email') }}">Изменить E-mail</a>
+                    </li>
+
+                    <li><a href="{{ path('logout') }}">Выход</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="_row">
+            <div class="col_12">
+                {% block account_content %}{% endblock %}
+            </div>
+
+            <div class="col_3 hide1024">
+                <div class="sidebar-nav_blk">
+                    <ul class="vertical_nav sidebar_nav">
+                        {% if is_granted('ROLE_ADMIN_BASE') %}
+                            <li><a href="{{ path('submarine_home') }}">Submarine</a></li>
+                        {% endif %}
+
+                        <li {% if right_menu == 'orders' %}class="sel"{% endif %}>
+                            <a href="{{ path('account_orders') }}">Мои заказы</a>
+                        </li>
+
+                        <li {% if right_menu == 'profile' %}class="sel"{% endif %}>
+                            <a href="{{ path('account_profile') }}">Мой профиль</a>
+                        </li>
+
+                        <li {% if right_menu == 'password' %}class="sel"{% endif %}>
+                            <a href="{{ path('account_password') }}">Изменить пароль</a>
+                        </li>
+
+                        <li {% if right_menu == 'email' %}class="sel"{% endif %}>
+                            <a href="{{ path('account_email') }}">Изменить E-mail</a>
+                        </li>
+
+                        <li><a href="{{ path('logout') }}">Выход</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

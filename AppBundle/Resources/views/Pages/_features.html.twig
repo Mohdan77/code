@@ -1,0 +1,14 @@
+<div class="features_blk">
+    {% for property in properties %}
+        <div class="_row">
+            <div class="col_6">
+                <div class="title">{{ property.property.title }}:</div>
+            </div>
+
+            <div class="col_6">
+                <div class="content">{{ property.value }} {{ property.property.valuePostfix }}</div>
+
+            </div>
+        </div>
+    {% endfor %}
+</div>

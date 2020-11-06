@@ -1,0 +1,563 @@
+{% extends '@PostroykaApp/Mail/base.html.twig' %}
+
+{% block content %}
+    <style>
+        body {
+            font: 11pt/1.2 Arial, Helvetica, sans-serif;
+            color: #111111;
+            background: #eee;
+            padding: 10px;
+            margin: 0 auto;
+            width: 740px;
+        }
+
+        a {
+            color: #1c94c4;
+        }
+
+        h1, h2, h3 {
+            margin-top: 2em;
+            margin-bottom: 1em;
+            color: #000;
+        }
+
+        h1 {
+            text-align: left;
+            margin-top: 0.5em;
+            font-size: 24pt;
+            font-weight: bold;
+            border: none;
+        }
+
+        h2, .h2 {
+            margin-top: 1em;
+            font-size: 18pt;
+        }
+
+        h3, .h3 {
+            margin-top: 0.5em;
+            font-size: 16pt;
+        }
+
+        table {
+            width: 60%;
+            border-collapse: collapse;
+        }
+
+        .title {
+            font-weight: bold;
+        }
+
+        td, th {
+            vertical-align: top;
+            border-bottom: 1px dotted #ddd;
+            padding: 4px 5px;
+            text-align: left;
+            font-size: 11pt;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-muted {
+            color: #666666;
+        }
+
+        td p, th p {
+            margin-top: 0;
+            margin-bottom: 1em;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: #ccc 1px 1px 3px;
+        }
+
+        .content, .footer {
+            padding: 25px;
+        }
+
+        .footer {
+            background: #222;
+            color: #ccc;
+            font-size: 9pt;
+            padding: 10px 25px;
+        }
+
+        .footer a {
+            color: #ddd;
+        }
+
+        .header {
+            padding: 15px 25px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .header img {
+            max-height: 50px;
+        }
+
+        .text-muted {
+            color: #666;
+            font-size: 10pt;
+        }
+
+        .table-order {
+            background: #F9F9F5;
+            width: 100%;
+        }
+
+        .table-order td,
+        .table-order th {
+            padding: 7px 10px;
+        }
+
+        .table-order td {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .table-order th {
+            border-bottom: 2px solid #dddddd;
+        }
+
+        .table-order th:nth-child(2) {
+            width: 300px;
+        }
+
+        .table-order th:nth-child(3) {
+            width: 120px;
+        }
+
+        .table-order th:nth-child(4) {
+            width: 70px;
+        }
+
+        .table-order th:nth-child(5) {
+            width: 130px;
+        }
+
+        .medium-font {
+            font-size: 15pt;
+        }
+
+        .success-printOrder.orange_btn {
+            background: #F57428;
+            background: linear-gradient(to bottom, #ff9920 0%, #e94a31 100%);
+            padding: 10px 20px;
+            border: none;
+            color: #fff;
+            font-size: 11pt;
+            transition: none;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .success-printOrder.orange_btn a{
+            background: initial;
+        }
+
+        .success-printOrder.orange_btn a:hover {
+            background: initial;
+            color: white;
+        }
+
+        .paymentLinkText {
+            font-size: 10pt;
+            font-weight: bold;
+        }
+    </style>
+
+    <p class="medium-font" style="font-size: 15pt;margin-bottom: 1em;margin-top: 0;">Номер заказа: <strong>{{ order.id }}</strong>
+        от {{ order.createdAt|date_local }} г.</p>
+
+    <p style="margin: 0; overflow-x: auto; max-width: 100%">
+    <table class="table-dotted" style="width: 100%; border-collapse: collapse;">
+        {% set item = order.options.get('address') %}
+        {% if item and item.value != '' %}
+            <tr>
+                <td title="{{ item.name }}"
+                    style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;min-width: 120px;">
+                    {{ item.title }}:
+                </td>
+                <td style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {{ item.value|nl2br }}
+                </td>
+            </tr>
+        {% endif %}
+
+        {% set item = order.options.get('date') %}
+        {% if item and item.value != '' %}
+            <tr>
+                <td title="{{ item.name }}"
+                    style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {{ item.title }}:
+                </td>
+                <td style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {{ item.value|nl2br }}
+                </td>
+            </tr>
+        {% endif %}
+
+        {% set item = order.options.get('delivery_price') %}
+        {% if item.value and order.deliveryMethod and order.deliveryMethod != 'Самовывоз' %}
+            <tr>
+                <td title="{{ item.name }}"
+                    style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    Доставка:
+                </td>
+                <td style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {% if item.value %}
+                        {{ item.value|number(true) }} руб.
+                    {% else %}
+                        Бесплатно.
+                    {% endif %}
+                    ({{ order.options.get('delivery').value }}).
+                    {% if order.options.get('total_weight').value > 2100 %}
+                        Более 2100кг.
+                    {% endif %}
+                </td>
+            </tr>
+        {% endif %}
+
+        {% set paymentMethod = order.paymentMethod %}
+        {% if paymentMethod != null %}
+            <tr>
+                <td style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    Оплата:
+                </td>
+                <td style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {{ paymentMethod }}
+                </td>
+            </tr>
+        {% endif %}
+
+        {% set item = order.options.get('purchase') %}
+        {% if item and item.value != '' %}
+            <tr>
+                <td title="{{ item.name }}"
+                    style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {{ item.title }}:
+                </td>
+                <td style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {{ item.value|nl2br }}
+                </td>
+            </tr>
+        {% endif %}
+
+        {% set item = order.options.get('unloading') %}
+        {% if item and item.value != 'Требуется' and order.deliveryMethod != 'Самовывоз' %}
+            <tr>
+                <td title="{{ item.name }}"
+                    style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {{ item.title }}:
+                </td>
+                <td style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {{ item.value|nl2br }}
+                </td>
+            </tr>
+        {% endif %}
+
+        {#{% set item = order.options.get('floor') %}#}
+        {#{% if item and item.value != '' %}#}
+            {#<tr>#}
+                {#<td title="{{ item.name }}"#}
+                    {#style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">#}
+                    {#{{ item.title }}:#}
+                {#</td>#}
+                {#<td style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">#}
+                    {#{{ item.value|nl2br }}#}
+                {#</td>#}
+            {#</tr>#}
+        {#{% endif %}#}
+
+        {#{% set item = order.options.get('elevator') %}#}
+        {#{% if item and item.value != '' %}#}
+            {#<tr>#}
+                {#<td title="{{ item.name }}"#}
+                    {#style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">#}
+                    {#{{ item.title }}:#}
+                {#</td>#}
+                {#<td style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">#}
+                    {#Да#}
+                {#</td>#}
+            {#</tr>#}
+        {#{% endif %}#}
+
+        {% set item = order.options.get('unloading_price') %}
+        {% if item and item.value != '' %}
+            <tr>
+                <td title="{{ item.name }}"
+                    style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    Разгрузка:
+                </td>
+                <td style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    <span style="padding-right: 5px">{{ item.value|number(true) }} руб.</span>
+
+                    {% set itemFloor = order.options.get('floor') %}
+                    {% if itemFloor and itemFloor.value != '' %}
+                        <div style="display: inline-block;border-left: 1px solid grey;padding: 0 7px;" class="{{ itemFloor.name }}">
+                            <span>{{ itemFloor.title }}:</span>
+                            <span> {{ itemFloor.value|nl2br }}</span>
+                        </div>
+                    {% endif %}
+
+                    {% set itemElevator = order.options.get('elevator') %}
+                    {% if itemElevator and itemElevator.value != '' %}
+                        <div style="display: inline-block;border-left: 1px solid grey;padding: 0 7px;" class="{{ itemElevator.name }}">
+                            <span>{{ itemElevator.title }}:</span>
+                            <span> Да </span>
+                        </div>
+                    {% endif %}
+
+{#                    <div style="display: inline-block;border-left: 1px solid grey;padding: 0 7px;" class="extraFloor">#}
+{#                        <span></span>#}
+{#                        <span></span>#}
+{#                    </div>#}
+
+                </td>
+            </tr>
+        {% endif %}
+
+        {% set item = order.options.get('payment') %}
+        {% if item and item.value != '' %}
+            <tr>
+                <td title="{{ item.name }}"
+                    style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {{ item.title }}:
+                </td>
+                <td style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {{ item.value|nl2br }}
+                </td>
+            </tr>
+        {% endif %}
+
+        {% set item = order.options.get('phone') %}
+        {% if item and item.value != '' %}
+            <tr>
+                <td title="{{ item.name }}"
+                    style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {{ item.title }}:
+                </td>
+                <td style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {{ item.value|nl2br }}
+                </td>
+            </tr>
+        {% endif %}
+
+        {% set item = order.options.get('email') %}
+        {% if item and item.value != '' %}
+            <tr>
+                <td title="{{ item.name }}"
+                    style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {{ item.title }}:
+                </td>
+                <td style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {{ item.value|nl2br }}
+                </td>
+            </tr>
+        {% endif %}
+
+        {% set item = order.options.get('comment') %}
+        {% if item and item.value != '' %}
+            <tr>
+                <td title="{{ item.name }}"
+                    style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {{ item.title }}:
+                </td>
+                <td style="vertical-align: top;border-bottom: 1px dotted #ddd;padding: 4px 5px;text-align: left;font-size: 11pt;">
+                    {{ item.value|nl2br }}
+                </td>
+            </tr>
+        {% endif %}
+    </table>
+    </p>
+
+
+    {# Распорка #}
+    <p>&nbsp;</p>
+
+    <p style="margin: 0; overflow-x: auto; max-width: 100%">
+    <table class="table table-order" style="width: 100%;border-collapse: collapse;background: #F9F9F5;">
+    <thead>
+    <tr>
+        <th style="vertical-align: top;border-bottom: 2px solid #dddddd;padding: 7px 10px;text-align: left;font-size: 11pt;width: 200px;">
+            Наименование
+        </th>
+        <th class="text-right"
+            style="vertical-align: top;border-bottom: 2px solid #dddddd;padding: 7px 10px;text-align: right;font-size: 11pt;width: 120px;">
+            Стоимость
+        </th>
+        <th class="text-right"
+            style="vertical-align: top;border-bottom: 2px solid #dddddd;padding: 7px 10px;text-align: right;font-size: 11pt;width: 60px;">
+            Кол-во
+        </th>
+        <th class="text-right"
+            style="vertical-align: top;border-bottom: 2px solid #dddddd;padding: 7px 10px;text-align: right;font-size: 11pt;width: 120px;">
+            Итого
+        </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for item in order.items %}
+        <tr>
+            <td style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: left;font-size: 11pt;">
+        <p class="h5" style="margin-top: 0;margin-bottom: 1em;">
+            <a href="/{{ link(item.url, true) }}" target="_blank" style="color: #1c94c4;">
+                {{ item.title }}
+            </a>
+        </p>
+        </td>
+
+        <td class="text-right"
+            style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: right;font-size: 11pt;">
+            {{ item.unitPrice|number(true) }} руб.
+        </td>
+        <td class="text-right"
+            style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: right;font-size: 11pt;">
+            {{ item.quantity }}
+        </td>
+        <td class="text-right"
+            style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: right;font-size: 11pt;">
+            {{ item.total|number(true) }} руб.
+        </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+
+
+    {% set item = order.options.get('total_weight') %}
+    {% if item and item.value %}
+        <tr class="text-muted" style="color: #666;font-size: 10pt;">
+            <td colspan="2"
+                style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: left;font-size: 11pt;">
+                <b>{{ item.title }}:</b>
+            </td>
+            <td colspan="2" class="text-right"
+                style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: right;font-size: 11pt;">
+                <b>
+                    {% if item.value|number == item.value %}
+                        {{ item.value|number }} кг.
+                    {% else %}
+                        {{ item.value|number_format(1, ',', ' ') }} кг.
+                    {% endif %}
+                </b>
+            </td>
+        </tr>
+    {% endif %}
+
+    {% if order.totalDiscount > 0 %}
+        <tr class="text-muted" style="color: #666;font-size: 10pt;">
+            <td colspan="2"
+                style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: left;font-size: 11pt;">
+                <b>Ваша скидка:</b>
+            </td>
+            <td colspan="2" class="text-right"
+                style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: right;font-size: 11pt;">
+                <b>{{ order.totalDiscount|number(true) }} руб.</b>
+            </td>
+        </tr>
+    {% endif %}
+
+    <tr>
+        <td colspan="2"
+            style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: left;font-size: 11pt;">
+            <b>Сумма:</b>
+        </td>
+        <td colspan="2" class="text-right"
+            style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: right;font-size: 11pt;">
+            <b>{{ order.total|number(true) }} руб.</b>
+        </td>
+    </tr>
+
+    {% if order.options.get('unloading_price') and order.options.get('unloading_price').value != '' %}
+        <tr title="Разгрузка">
+            <td colspan="2"
+                style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: left;font-size: 11pt;">
+                <i class="glyphicon glyphicon-send"></i>
+                <b>Разгрузка:</b>
+            </td>
+            <td colspan="2" class="text-right"
+                style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: right;font-size: 11pt;">
+                <b>{{ order.options.get('unloading_price').value|default|number(true) }} руб.</b>
+            </td>
+        </tr>
+    {% endif %}
+
+    {% if order.options.get('delivery_price').value|default and order.deliveryMethod and order.deliveryMethod != 'Самовывоз' %}
+        <tr title="Доставка">
+            <td colspan="1"
+                style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: left;font-size: 11pt;">
+                <i class="glyphicon glyphicon-send"></i>
+                <b>{{ order.deliveryMethod }}:</b>
+            </td>
+            <td colspan="3" class="text-right"
+                style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: right;font-size: 11pt;">
+                <b>{{ order.options.get('delivery_price').value|default|number(true) }} руб.
+                    ({{ order.options.get('delivery').value }}).
+                    {% if order.options.get('total_weight').value > 2100 %}
+                        Более 2100кг.
+                    {% endif %}
+                </b>
+            </td>
+        </tr>
+    {% endif %}
+
+    {% if order.paymentMethod %}
+        <tr title="Вид оплаты">
+            <td colspan="2"
+                style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: left;font-size: 11pt;">
+                <i class="glyphicon glyphicon-credit-card"></i>
+                <b>{{ order.paymentMethod }}:</b>
+            </td>
+            <td colspan="2" class="text-right"
+                style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: right;font-size: 11pt;">
+                <b>{{ order.paymentMethodPrice|number(true) }} руб.</b>
+            </td>
+        </tr>
+    {% endif %}
+
+    <tr class="h4 text-right" style="text-align: right;">
+        <td colspan="2"
+            style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: left;font-size: 11pt;">
+            <abbr title="Цена с учетом скидок, стоимости доставки и комиссии за способ оплаты">
+                <b>Итого к оплате:</b>
+            </abbr>
+        </td>
+        <td colspan="2" class="text-right"
+            style="vertical-align: top;border-bottom: 1px solid #dddddd;padding: 7px 10px;text-align: right;font-size: 11pt;">
+            <b>{{ order.payPrice|number(true) }} руб.</b>
+        </td>
+    </tr>
+    </tfoot>
+    </table>
+    </p>
+
+    <p class="medium-font" style="font-size: 15pt;"><b> Благодарим за покупку! Бывайце здаровы, жывiце багата!</b></p>
+
+    <div class="success-printOrder orange_btn" style="margin-top: 20px; padding: 10px; display: inline-block; border-radius: 5px; background: linear-gradient(to bottom, #ff9920 0%, #e94a31 100%);">
+        <a href="{{ url('api_print_order', {orderId: order.id, orderUuid: order.uuid}) }}" class="printOrder" id="printOrder" role="button" style="color: white; text-decoration: none">Распечатать заказ</a>
+    </div>
+
+    {% if order.options.get('total_weight').value > 2100 %}
+        <p><span style="color: red">*</span> При превышении массы 2100 кг, стоимость доставки
+            будет рассчитываться менеджером индивидуально.</p>
+    {% endif %}
+
+
+    {% if order.description %}
+        <h4 class="page-header">Комментарий клиента:</h4>
+        <p>
+            {{ order.description|nl2br }}
+        </p>
+    {% endif %}
+{% endblock %}

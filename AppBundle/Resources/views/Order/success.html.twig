@@ -1,0 +1,58 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% block title %}
+    <span class="success-title">Ваш заказ №{{ order_id|default }} принят к обработке!</span>
+{% endblock %}
+
+{% block content %}
+
+    <div class="_blk">
+        {{ page.body|raw }}
+    </div>
+
+    {{ include("@PostroykaApp/Pages/_images.html.twig") }}
+    {{ include("@PostroykaApp/Pages/_files.html.twig") }}
+
+    <div class="success-printOrder orange_btn" style="margin-top: 20px;">
+        <a href="{{ path('api_print_order', {orderId: order_id, orderUuid: order.uuid}) }}" class="printOrder" id="printOrder" role="button" style="color: white; text-decoration: none">Распечатать заказ</a>
+    </div>
+
+{% endblock %}
+
+
+{% block gtm_header %}
+    {{ parent()  }}
+
+    {# GTM: Thank you page #}
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        dataLayer.push({
+            'ecommerce': {
+                'currencyCode': 'USD',
+                'purchase': {
+                    'actionField': {
+                        'id': '{{ order.id }}',
+                        'affiliation': 'postroyka.by',
+                        'revenue': '{{ order.total * 0.12 }}',
+                        'shipping': '{{ order.deliveryMethodPrice }}',
+                        'transactionTotal': '{{ order.total + order.deliveryMethodPrice + order.paymentMethodPrice }}'
+                    },
+                    'products': [
+                        {% for product in order.items %}
+                        {
+                            'name': '{{ product.title }}',
+                            'id': '{{ product.entityId }}',
+                            'price': '{{ product.unitPrice }}',
+                            'quantity': {{ product.quantity }}
+                        },
+                        {% endfor %}
+                    ]
+                }
+            },
+            'event': 'gtm-ee-event',
+            'gtm-ee-event-category': 'Enhanced Ecommerce',
+            'gtm-ee-event-action': 'Purchase',
+            'gtm-ee-event-non-interaction': 'False'
+        });
+    </script>
+{% endblock %}

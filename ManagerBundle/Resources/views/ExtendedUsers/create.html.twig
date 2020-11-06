@@ -1,0 +1,16 @@
+{% extends 'PostroykaManagerBundle::layout.html.twig' %}
+
+{% block content %}
+    <h1>Новый пользователь</h1>
+
+    <div>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <div class="block-actions">
+            <button type="submit" class="btn btn-main">{{ 'control.create' | trans }}</button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

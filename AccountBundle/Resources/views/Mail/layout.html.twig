@@ -1,0 +1,30 @@
+{% extends '@SubmarineMailer/base_email.html.twig' %}
+
+{% block footer %}
+    <style>
+        .panel-footer {
+            color: #777;
+            font-size: 9pt;
+            border-top: 1px solid #ddd;
+            margin-top: 30px;;
+        }
+
+        .panel-footer a {
+            color: #777;
+        }
+
+        .warning {
+            color: lightcoral;
+            font-size: 14pt;
+        }
+    </style>
+
+    <div class="panel-footer">
+        <p><a href="{{ url('home') }}">Postroyka.by</a> - склад-магазин стройматериалов</p>
+    </div>
+
+    {{ parent() }}
+{% endblock %}
+
+
+

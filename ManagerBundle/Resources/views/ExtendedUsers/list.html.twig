@@ -1,0 +1,22 @@
+{% extends 'PostroykaManagerBundle::layout.html.twig' %}
+
+{% block content %}
+    <h1>{{ 'postroyka_manager.users.all_users'|trans }}</h1>
+
+    <table class="table-entities">
+        {% for user in users %}
+            {{ include('@PostroykaManager/ExtendedUsers/_user_item.html.twig', {'user': user}) }}
+        {% endfor %}
+    </table>
+
+
+    {{ knp_pagination_render(users) }}
+{% endblock %}
+
+
+{% block blocks %}
+    <div class="block">
+        <a href="{{ path('postroyka_manager_users_create') }}"
+           class="btn btn-main btn-block">{{ 'postroyka_manager.users.create_user'|trans }}</a>
+    </div>
+{% endblock %}

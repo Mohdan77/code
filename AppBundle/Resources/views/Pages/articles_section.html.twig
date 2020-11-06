@@ -1,0 +1,37 @@
+{% extends '@PostroykaApp/base.html.twig' %}
+
+{% block title %}
+    {{ page.title }}
+{% endblock %}
+
+
+{% block content %}
+    {% if page.body %}
+        <div class="_blk">
+            {{ page.body|raw }}
+        </div>
+    {% endif %}
+
+
+    <div class="articles-cat_blk">
+        <div class="_row">
+            {% for group in groups %}
+                <div class="col_12">
+                    <div class="article-cat_item" title="{{ group.title }}">
+                        {% if group.image %}
+                            <div class="image">
+                                <img src="{{ asset(group.image)|imagine_filter('article') }}" title="{{ group.title }}"
+                                     alt="{{ group.title }}">
+                            </div>
+                        {% endif %}
+
+                        <div class="summary">
+                            <a href="{{ link(group.url) }}" class="headline">{{ group.title }}
+                                ({{ child_count[group.id]|default() }})</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

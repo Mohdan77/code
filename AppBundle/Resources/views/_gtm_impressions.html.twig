@@ -1,0 +1,25 @@
+{# Отслеживание просмотра товаров в каталоге #}
+<script>
+    window.dataLayer = window.dataLayer || [];
+    dataLayer.push({
+        'ecommerce': {
+            'currencyCode': 'USD',
+            'impressions': [
+                {% for product in products %}
+                {
+                    'name': '{{ product.title }}',
+                    'id': '{{ product.id }}',
+                    'price': '{{ product.price }}',
+                    'category': '{{ product.parentPages|first.title }}',
+                    'list': '{{ list }}',
+                    'position': {{ loop.index }}
+                },
+                {% endfor %}
+            ]
+        },
+        'event': 'gtm-ee-event',
+        'gtm-ee-event-category': 'Enhanced Ecommerce',
+        'gtm-ee-event-action': 'Product Impressions',
+        'gtm-ee-event-non-interaction': 'True'
+    });
+</script>

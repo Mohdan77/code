@@ -1,0 +1,12 @@
+{% extends 'SubmarineCoreBundle:Theme:base.html.twig' %}
+
+{% block menu %}
+    <ul>
+        <li>
+            <a href="{{ path('postroyka_manager_users') }}">{{ 'postroyka_manager.users.all_users'|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('postroyka_manager_usesr_statistics') }}">Статистика пользователей</a>
+        </li>
+    </ul>
+{% endblock %}

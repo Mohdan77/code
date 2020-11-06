@@ -1,0 +1,68 @@
+<div class="i-item js-cart-item">
+    {% if products[item.entityid].value('stock') %}
+        <div class="product_label" data-type="stock">Акция</div>
+    {% elseif products[item.entityid].value('novelty') %}
+        <div class="product_label" data-type="novelty">Новинка</div>
+    {% elseif products[item.entityid].value('markdown') %}
+        <div class="product_label" data-type="markdown">Уценка</div>
+    {% elseif products[item.entityid].value('supershare') %}
+        <div class="product_label supershare" data-type="supershare">Суперакция</div>
+    {% elseif products[item.entityid].value('sales_leader') %}
+        <div class="product_label sales_leader" data-type="sales_leader">Лидер продаж</div>
+    {% endif %}
+
+    {% if item.image %}
+        <div class="_col-image">
+            <picture class="img">
+                <source srcset="{{ asset(item.image)|imagine_filter('cart_item_s') }}" media="(max-width: 500px)">
+                <source srcset="{{ asset(item.image)|imagine_filter('cart_item_m') }}" media="(max-width: 768px)">
+                <img src="{{ asset(item.image)|imagine_filter('cart_item') }}" title="{{ item.title }}" alt="{{ item.title }}">
+            </picture>
+        </div>
+    {% endif %}
+
+    <div class="_col-info">
+        <a href="{{ link(item.url) }}" class="_headline">{{ item.title }}</a>
+    </div>
+
+    <div class="_col-price">
+        <div class="_price">
+            <span class="_title">Цена:</span>
+            <span class="js-cart-item-price">
+                {{ (item.unitPrice - item.unitDiscount)|number(true) }}
+            </span>
+            р.
+        </div>
+    </div>
+
+    <div class="_col-num">
+        <div class="_counter js-cart-quantity">
+            <span class="_ico-minus"></span>
+
+            <input name="items[{{ item.key }}]" id="quantity_{{ item.entityId }}" type="text"
+                   value="{{ item.quantity }}" data-update="{{ path('js_api', {'action': 'cart-update'}) }}">
+
+            <span class="_ico-plus"></span>
+        </div>
+    </div>
+
+    <div class="_col-summ">
+        <div class="_summ">
+            <span class="_title">Сумма:</span>
+            <span class="js-cart-item-total">
+                   {{ item.total|number(true) }}
+            </span>
+            р.
+        </div>
+    </div>
+
+    <div class="_col-del">
+        <a href="{{ path('cart_remove', {'key': item.key}) }}" class="_ico-close" onclick="GTM_removeItemFromCart({
+                'name': '{{ item.title }}',
+                'id': '{{ item.entityId }}',
+                'price': '{{ item.unitPrice }}',
+                'quantity': 'quantity_{{ item.entityId }}'
+                })">
+        </a>
+    </div>
+</div>
